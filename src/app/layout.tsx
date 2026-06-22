@@ -17,8 +17,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Prof. Madougou Saidou | Strategic Leadership in Education, Science, Technology & Innovation",
-  description: "Executive portfolio of Prof. Madougou Saidou, Strategic Leadership in Education, Science, Technology & Innovation.",
+  title: "Prof. Saidou Madougou | Strategic Leadership in Education, Science, Technology & Innovation",
+  description: "Executive portfolio of Prof. Saidou Madougou, Strategic Leadership in Education, Science, Technology & Innovation.",
 };
 
 export default function RootLayout({

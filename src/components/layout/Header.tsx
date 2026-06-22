@@ -4,71 +4,119 @@ import Link from "next/link";
 import { ThemeToggle } from "../ui/ThemeToggle";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
-  { name: "Profile", href: "#profile" },
-  { name: "Experience", href: "#experience" },
-  { name: "Initiatives", href: "#initiatives" },
+  { name: "Profile",      href: "#profile"      },
+  { name: "Experience",   href: "#experience"   },
+  { name: "Initiatives",  href: "#initiatives"  },
   { name: "Publications", href: "#publications" },
-  { name: "Speaking", href: "#speaking" },
-  { name: "Media", href: "#media" },
+  { name: "Speaking",     href: "#speaking"     },
   { name: "Testimonials", href: "#testimonials" },
-  { name: "Blog", href: "#blog" },
-  { name: "Contact", href: "#contact" },
+  { name: "Blog",         href: "#blog"         },
+  { name: "Contact",      href: "#contact"      },
 ];
 
 export function Header() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
+  const [mobileOpen, setMobileOpen]   = useState(false);
+  const [scrolled, setScrolled]       = useState(false);
+  const [isVisible, setIsVisible]     = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
-      // Only hide if scrolled down past 50px
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+      setScrolled(currentScrollY > 20);
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
         setIsVisible(false);
+        setMobileOpen(false);
       } else {
         setIsVisible(true);
       }
       setLastScrollY(currentScrollY);
-    };
 
+      // Active section detection
+      const sections = NAV_LINKS.map(l => l.href.replace("#", ""));
+      for (const id of sections.reverse()) {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 120) {
+          setActiveSection(id);
+          break;
+        }
+      }
+    };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
   return (
-    <header className={`fixed top-0 w-full z-50 bg-white/90 dark:bg-executive-darkBg/90 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: isVisible ? 0 : -100, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-executive-darkBg/95 backdrop-blur-xl border-b border-executive-gold/10 shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
+          : "bg-transparent border-b border-transparent"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <div className="flex-shrink-0">
-            <Link href="/" className="font-playfair text-2xl font-bold text-executive-blue dark:text-white">
-              M.S.
-            </Link>
-          </div>
-          
-          <nav className="hidden lg:flex space-x-6 items-center">
-            {NAV_LINKS.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href}
-                className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-executive-gold dark:hover:text-executive-gold transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
-            <div className="pl-4 border-l border-gray-200 dark:border-gray-700">
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-lg bg-executive-gold flex items-center justify-center text-executive-darkBg font-playfair font-bold text-lg group-hover:scale-105 transition-transform duration-200">
+              SM
+            </div>
+            <div className="hidden sm:block">
+              <div className="font-playfair font-bold text-white text-sm leading-tight">Prof. Saidou Madougou</div>
+            </div>
+          </Link>
+
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {NAV_LINKS.map((link) => {
+              const sectionId = link.href.replace("#", "");
+              const isActive  = activeSection === sectionId;
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-md ${
+                    isActive
+                      ? "text-executive-gold"
+                      : "text-gray-300 hover:text-white"
+                  }`}
+                >
+                  {link.name}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-underline"
+                      className="absolute bottom-0 left-3 right-3 h-[2px] bg-executive-gold rounded-full"
+                    />
+                  )}
+                </a>
+              );
+            })}
+            <div className="ml-3 pl-3 border-l border-white/10 flex items-center gap-3">
               <ThemeToggle />
+              <a
+                href="#contact"
+                className="px-4 py-2 bg-executive-gold text-executive-darkBg text-sm font-bold rounded-lg hover:bg-[#dbb84a] transition-all duration-200 hover:shadow-[0_0_20px_rgba(201,162,39,0.35)]"
+              >
+                Contact
+              </a>
             </div>
           </nav>
 
-          <div className="lg:hidden flex items-center gap-4">
+          {/* Mobile controls */}
+          <div className="lg:hidden flex items-center gap-3">
             <ThemeToggle />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="p-2 text-gray-600 dark:text-gray-300"
+              className="p-2 text-gray-300 hover:text-white transition-colors"
+              aria-label="Toggle menu"
             >
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -76,23 +124,46 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="lg:hidden bg-white dark:bg-executive-darkSurface border-b border-gray-100 dark:border-gray-800">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </header>
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="lg:hidden overflow-hidden bg-executive-darkBg/98 backdrop-blur-xl border-t border-executive-gold/10"
+          >
+            <div className="px-4 py-4 space-y-1">
+              {NAV_LINKS.map((link, i) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.04 }}
+                >
+                  <a
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 font-medium transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                </motion.div>
+              ))}
+              <div className="pt-3 pb-1">
+                <a
+                  href="#contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="block w-full text-center px-4 py-3 bg-executive-gold text-executive-darkBg font-bold rounded-lg hover:bg-[#dbb84a] transition-colors"
+                >
+                  Contact Office
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

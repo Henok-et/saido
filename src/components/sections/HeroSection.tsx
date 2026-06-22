@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
-import { AnimatedSection } from "../ui/AnimatedSection";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { ArrowDown, Globe, BookOpen, Users } from "lucide-react";
 
 interface HeroData {
   title?: string;
@@ -9,66 +13,145 @@ interface HeroData {
   biographyUrl?: string;
 }
 
+
 export function HeroSection({ data }: { data?: HeroData }) {
-  const title = data?.title;
-  const subtitle = data?.subtitle;
-  const description = data?.description;
-  const imageUrl = data?.imageUrl;
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y      = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
+  const opacity= useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  const title       = data?.title       || "Prof. Saidou Madougou";
+  const subtitle    = data?.subtitle    || "Strategic Leadership in Education, Science, Technology & Innovation";
+  const description = data?.description || "Advancing Africa's knowledge systems through continental leadership, scientific excellence, and two decades of transformative academic governance.";
+  const imageUrl    = data?.imageUrl;
 
   return (
-    <AnimatedSection
+    <section
+      ref={ref}
       id="hero"
-      className="relative h-[calc(100vh-80px)] min-h-[600px] flex items-center overflow-hidden bg-executive-blue dark:bg-executive-darkBg"
+      className="relative h-screen min-h-[700px] max-h-[1100px] flex items-center overflow-hidden bg-executive-darkBg"
     >
-      {/* Full-screen Background Image — anchored LEFT so the face/subject is visible */}
+      {/* ── Parallax Background Image ─────────────────── */}
       {imageUrl && (
-        <div className="absolute inset-0 w-full h-full z-0 select-none">
+        <motion.div style={{ y }} className="absolute inset-0 w-full h-full z-0 will-change-transform">
           <Image
             src={imageUrl}
-            alt={title || "Hero Background"}
+            alt={title}
             fill
             priority
-            className="object-cover object-left"
+            className="object-cover object-center"
           />
-          {/* Gradient: almost transparent on the left (image clearly visible), fades to deep blue on the right */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to right, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.08) 35%, rgba(15,45,82,0.75) 58%, rgba(15,45,82,0.95) 75%, #0F2D52 100%)",
-            }}
-          />
-        </div>
+        </motion.div>
       )}
 
-      {/* Placeholder background when no image */}
-      {!imageUrl && (
-        <div className="absolute inset-0 w-full h-full z-0 bg-executive-blue" />
-      )}
+      {/* ── Gradient overlays ─────────────────────────── */}
+      <div className="absolute inset-0 z-[1]" style={{
+        background: imageUrl
+          ? "linear-gradient(100deg, rgba(7,21,37,0.22) 0%, rgba(7,21,37,0.45) 35%, rgba(7,21,37,0.82) 58%, rgba(7,21,37,0.97) 78%, #071525 100%)"
+          : "linear-gradient(135deg, #071525 0%, #0F2D52 100%)"
+      }} />
 
-      {/* Text content — grouped on the RIGHT side */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-end">
-        <div className="w-full max-w-lg flex flex-col items-end text-right">
+      {/* ── Dot pattern ───────────────────────────────── */}
+      <div className="absolute inset-0 z-[2] dot-pattern opacity-30 pointer-events-none" />
 
-          {/* Subtitle / moto — gold, above the name */}
-          <p className="text-executive-gold text-lg sm:text-xl md:text-2xl font-inter font-medium mb-4 tracking-wide uppercase">
-            {subtitle || "Welcome"}
-          </p>
 
-          {/* Name / title — large white */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-playfair font-bold text-white leading-tight mb-6">
-            {title || "Saido"}
-          </h1>
 
-          {/* Thin gold divider */}
-          <div className="w-24 h-[2px] bg-executive-gold mb-6" />
+      {/* ── Main content ──────────────────────────────── */}
+      <motion.div
+        style={{ opacity }}
+        className="relative z-[5] w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex justify-end"
+      >
+        <div className="w-full max-w-2xl">
 
-          {/* Description — grey, below divider */}
-          <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-sm">
-            {description || "Empowering research and collaboration."}
-          </p>
+          {/* Eyebrow */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+            className="flex items-center gap-3 mb-6"
+          >
+            <span className="section-label">{subtitle}</span>
+          </motion.div>
+
+          {/* Name */}
+          <div className="overflow-hidden mb-2">
+            <motion.h1
+              initial={{ y: 80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.35, duration: 0.9, ease: [0.215, 0.61, 0.355, 1] }}
+              className="font-playfair font-bold text-white leading-[1.05] text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]"
+            >
+              Prof. Saidou
+            </motion.h1>
+          </div>
+          <div className="overflow-hidden mb-8">
+            <motion.h1
+              initial={{ y: 80, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.45, duration: 0.9, ease: [0.215, 0.61, 0.355, 1] }}
+              className="font-playfair font-bold leading-[1.05] text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]"
+              style={{ color: "#C9A227" }}
+            >
+              Madougou
+            </motion.h1>
+          </div>
+
+          {/* Animated gold rule */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.75, duration: 0.8, ease: "easeInOut" }}
+            className="h-[2px] w-28 bg-executive-gold origin-left mb-8"
+          />
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.85, duration: 0.7 }}
+            className="text-gray-300 text-lg leading-relaxed max-w-lg mb-10"
+          >
+            {description}
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.7 }}
+            className="flex flex-wrap gap-4"
+          >
+            <a
+              href="#profile"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-executive-gold text-executive-darkBg font-bold text-sm rounded-lg hover:bg-[#dbb84a] transition-all duration-300 hover:shadow-[0_0_30px_rgba(201,162,39,0.4)] hover:-translate-y-0.5"
+            >
+              View Full Profile
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/20 text-white font-semibold text-sm rounded-lg hover:border-executive-gold hover:text-executive-gold transition-all duration-300 hover:-translate-y-0.5 backdrop-blur-sm"
+            >
+              Get in Touch
+            </a>
+          </motion.div>
         </div>
-      </div>
-    </AnimatedSection>
+      </motion.div>
+
+      {/* ── Scroll indicator ──────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[5] flex flex-col items-center gap-2"
+      >
+        <span className="text-gray-500 text-[10px] tracking-[0.2em] uppercase font-medium">Scroll</span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        >
+          <ArrowDown className="w-4 h-4 text-executive-gold" />
+        </motion.div>
+      </motion.div>
+    </section>
   );
 }
