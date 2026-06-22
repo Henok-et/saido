@@ -8,13 +8,15 @@ interface AnimatedSectionProps {
   className?: string;
   id?: string;
   delay?: number;
+  style?: React.CSSProperties;
 }
 
-export function AnimatedSection({ children, className, id, delay = 0 }: AnimatedSectionProps) {
+export function AnimatedSection({ children, className, id, delay = 0, style }: AnimatedSectionProps) {
   return (
     <motion.section
       id={id}
       className={className}
+      style={style}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-20px" }}
