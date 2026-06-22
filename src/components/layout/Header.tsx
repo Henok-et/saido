@@ -57,7 +57,7 @@ export function Header() {
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-executive-darkBg/95 backdrop-blur-xl border-b border-executive-gold/10 shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
+          ? "bg-white/95 dark:bg-executive-darkBg/95 backdrop-blur-xl border-b border-gray-200 dark:border-executive-gold/10 shadow-sm dark:shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
           : "bg-transparent border-b border-transparent"
       }`}
     >
@@ -70,7 +70,9 @@ export function Header() {
               SM
             </div>
             <div className="hidden sm:block">
-              <div className="font-playfair font-bold text-white text-sm leading-tight">Prof. Saidou Madougou</div>
+              <div className={`font-playfair font-bold text-sm leading-tight transition-colors ${scrolled ? "text-black dark:text-white" : "text-white"}`}>
+                Prof. Saidou Madougou
+              </div>
             </div>
           </Link>
 
@@ -86,7 +88,9 @@ export function Header() {
                   className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-md ${
                     isActive
                       ? "text-executive-gold"
-                      : "text-gray-300 hover:text-white"
+                      : scrolled
+                        ? "text-black hover:text-black/70 dark:text-gray-300 dark:hover:text-white"
+                        : "text-gray-300 hover:text-white"
                   }`}
                 >
                   {link.name}
@@ -99,7 +103,7 @@ export function Header() {
                 </a>
               );
             })}
-            <div className="ml-3 pl-3 border-l border-white/10 flex items-center gap-3">
+            <div className={`ml-3 pl-3 border-l flex items-center gap-3 ${scrolled ? "border-gray-200 dark:border-white/10" : "border-white/10"}`}>
               <ThemeToggle />
               <a
                 href="#contact"
@@ -115,7 +119,7 @@ export function Header() {
             <ThemeToggle />
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="p-2 text-gray-300 hover:text-white transition-colors"
+              className={`p-2 transition-colors ${scrolled ? "text-black dark:text-white" : "text-white hover:text-gray-300"}`}
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -132,7 +136,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden overflow-hidden bg-executive-darkBg/98 backdrop-blur-xl border-t border-executive-gold/10"
+            className="lg:hidden overflow-hidden bg-white/98 dark:bg-executive-darkBg/98 backdrop-blur-xl border-t border-gray-200 dark:border-executive-gold/10"
           >
             <div className="px-4 py-4 space-y-1">
               {NAV_LINKS.map((link, i) => (
@@ -145,7 +149,7 @@ export function Header() {
                   <a
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 font-medium transition-colors"
+                    className="block px-4 py-3 rounded-lg text-black hover:text-black/70 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-white/5 font-medium transition-colors"
                   >
                     {link.name}
                   </a>
