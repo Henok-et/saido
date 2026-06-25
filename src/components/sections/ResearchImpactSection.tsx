@@ -1,5 +1,6 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { BookOpen, FileText, Globe, Users, Award, FlaskConical } from "lucide-react";
+import { PendingContent } from "../ui/PendingContent";
 
 // Helper to render icon based on string name
 const getIcon = (iconName: string) => {
@@ -15,38 +16,8 @@ const getIcon = (iconName: string) => {
 };
 
 export function ResearchImpactSection({ data }: { data?: any }) {
-  const impacts = data?.impacts || [
-    {
-      iconName: "FileText",
-      title: "50+ Scientific Articles",
-      description: "Published peer-reviewed scientific articles in Physics and Education Sciences.",
-    },
-    {
-      iconName: "BookOpen",
-      title: "Academic Authorship",
-      description: "Author and co-author of academic books and scholarly publications.",
-    },
-    {
-      iconName: "Globe",
-      title: "40+ International Conferences",
-      description: "Participated in international conferences, symposia, and scientific workshops.",
-    },
-    {
-      iconName: "Users",
-      title: "Doctoral Supervision",
-      description: "Supervised numerous doctoral candidates in Physics.",
-    },
-    {
-      iconName: "Award",
-      title: "30+ PhD Juries",
-      description: "Served on PhD examination juries across Niger, Senegal, Benin, and Burkina Faso.",
-    },
-    {
-      iconName: "FlaskConical",
-      title: "Multidisciplinary Research",
-      description: "Leads research through the Laboratory of Energetics, Electronics, Electrical Engineering, Automation and Industrial Computing.",
-    }
-  ];
+  const impacts = data?.impacts;
+  const hasData = impacts && impacts.length > 0;
 
   return (
     <AnimatedSection id="research" className="section-padding bg-white dark:bg-executive-darkBg">
@@ -59,19 +30,23 @@ export function ResearchImpactSection({ data }: { data?: any }) {
           </h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {impacts.map((impact: any, idx: number) => (
-            <div key={idx} className="executive-card p-6 group hover:border-executive-gold transition-colors">
-              <div className="mb-4 text-executive-blue dark:text-executive-gold bg-executive-blue/5 dark:bg-executive-gold/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                {getIcon(impact.iconName)}
+        {hasData ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {impacts.map((impact: any, idx: number) => (
+              <div key={idx} className="executive-card p-6 group hover:border-executive-gold transition-colors">
+                <div className="mb-4 text-executive-blue dark:text-executive-gold bg-executive-blue/5 dark:bg-executive-gold/10 w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                  {getIcon(impact.iconName)}
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{impact.title}</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {impact.description}
+                </p>
               </div>
-              <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{impact.title}</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {impact.description}
-              </p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <PendingContent sectionName="Research & Academic Impact" />
+        )}
 
       </div>
     </AnimatedSection>

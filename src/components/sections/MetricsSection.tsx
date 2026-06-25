@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { PendingContent } from "../ui/PendingContent";
 
 interface MetricItem {
   value: string;
@@ -35,18 +36,15 @@ function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
 }
 
 export function MetricsSection({ data }: { data?: MetricItem[] }) {
-  const metrics = data && data.length > 0 ? data : [
-    { value: "20+", label: "Years of Academic Leadership"    },
-    { value: "50+", label: "Scientific Publications"          },
-    { value: "40+", label: "International Conferences"        },
-    { value: "30+", label: "PhD Examination Committees"       },
-  ];
+  const hasData = data && data.length > 0;
 
-  const parsed = metrics.map(m => {
-    const num    = parseInt(m.value.replace(/\D/g, ""), 10) || 0;
-    const suffix = m.value.replace(/[0-9]/g, "").trim();
-    return { ...m, num, suffix };
-  });
+  const parsed = hasData
+    ? data.map(m => {
+        const num    = parseInt(m.value.replace(/\D/g, ""), 10) || 0;
+        const suffix = m.value.replace(/[0-9]/g, "").trim();
+        return { ...m, num, suffix };
+      })
+    : [];
 
   return (
     <section id="metrics" className="relative py-20 bg-executive-darkBg overflow-hidden">
@@ -69,36 +67,36 @@ export function MetricsSection({ data }: { data?: MetricItem[] }) {
             A Legacy of{" "}
             <span className="text-gradient-gold">Excellence</span>
           </h2>
-          <p className="text-gray-400 mt-3 max-w-xl mx-auto">
-            Continental leadership through CAMES, the African Union, and decades of academic scholarship.
-          </p>
         </motion.div>
 
-        {/* Metric cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {parsed.map((metric, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="relative group"
-            >
-              <div className="glass-card rounded-2xl p-6 md:p-8 text-center h-full border border-white/5 hover:border-executive-gold/30 transition-all duration-300 hover:bg-white/[0.08]">
-                {/* Gold accent top bar */}
-                <div className="absolute top-0 left-8 right-8 h-[2px] bg-gradient-to-r from-transparent via-executive-gold/60 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {hasData ? (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {parsed.map((metric, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="relative group"
+              >
+                <div className="glass-card rounded-2xl p-6 md:p-8 text-center h-full border border-white/5 hover:border-executive-gold/30 transition-all duration-300 hover:bg-white/[0.08]">
+                  {/* Gold accent top bar */}
+                  <div className="absolute top-0 left-8 right-8 h-[2px] bg-gradient-to-r from-transparent via-executive-gold/60 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                <div className="text-5xl md:text-6xl font-playfair font-bold text-executive-gold mb-3 tabular-nums">
-                  <CountUp target={metric.num} suffix={metric.suffix} />
+                  <div className="text-5xl md:text-6xl font-playfair font-bold text-executive-gold mb-3 tabular-nums">
+                    <CountUp target={metric.num} suffix={metric.suffix} />
+                  </div>
+                  <div className="text-sm md:text-base text-gray-400 font-medium leading-snug">
+                    {metric.label}
+                  </div>
                 </div>
-                <div className="text-sm md:text-base text-gray-400 font-medium leading-snug">
-                  {metric.label}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <PendingContent sectionName="Metrics" className="text-white [&_h3]:text-white" />
+        )}
       </div>
     </section>
   );

@@ -25,6 +25,10 @@ export function HeroSection({ data }: { data?: HeroData }) {
   const description = data?.description || "Advancing Africa's knowledge systems through continental leadership, scientific excellence, and two decades of transformative academic governance.";
   const imageUrl    = data?.imageUrl;
 
+  const parts = title.split(" ");
+  const firstPart = parts.slice(0, -1).join(" ") || parts[0];
+  const lastPart = parts.length > 1 ? parts[parts.length - 1] : "";
+
   return (
     <section
       ref={ref}
@@ -81,20 +85,22 @@ export function HeroSection({ data }: { data?: HeroData }) {
               transition={{ delay: 0.35, duration: 0.9, ease: [0.215, 0.61, 0.355, 1] }}
               className="font-playfair font-bold text-white leading-[1.05] text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]"
             >
-              Prof. Saidou
+              {firstPart}
             </motion.h1>
           </div>
-          <div className="overflow-hidden mb-8">
-            <motion.h1
-              initial={{ y: 80, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.45, duration: 0.9, ease: [0.215, 0.61, 0.355, 1] }}
-              className="font-playfair font-bold leading-[1.05] text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]"
-              style={{ color: "#C9A227" }}
-            >
-              Madougou
-            </motion.h1>
-          </div>
+          {lastPart && (
+            <div className="overflow-hidden mb-8">
+              <motion.h1
+                initial={{ y: 80, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.45, duration: 0.9, ease: [0.215, 0.61, 0.355, 1] }}
+                className="font-playfair font-bold leading-[1.05] text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]"
+                style={{ color: "#C9A227" }}
+              >
+                {lastPart}
+              </motion.h1>
+            </div>
+          )}
 
           {/* Animated gold rule */}
           <motion.div

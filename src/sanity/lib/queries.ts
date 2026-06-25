@@ -15,9 +15,9 @@ export const metricsQuery = groq`*[_type == "metrics"][0] {
 
 export const profileQuery = groq`*[_type == "profile"][0] {
   name,
-  currentTitle,
-  biography,
-  "imageUrl": profileImage.asset->url,
+  "title": currentTitle,
+  "bio": biography,
+  "headshotUrl": profileImage.asset->url,
   "cvUrl": cvFile.asset->url
 }`
 

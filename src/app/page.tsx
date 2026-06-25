@@ -74,7 +74,7 @@ export default async function Home() {
   return (
     <main className="w-full">
       <HeroSection data={defaultHero} />
-      <MetricsSection data={metrics} />
+      <MetricsSection data={metrics?.items} />
       <ExecutiveProfile data={profile} />
       <ExperienceTimeline data={experience} />
       <LeadershipGovernanceSection data={leadershipRoles} />

@@ -1,5 +1,6 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { Landmark } from "lucide-react";
+import { PendingContent } from "../ui/PendingContent";
 
 interface LeadershipRole {
   _id: string;
@@ -7,39 +8,11 @@ interface LeadershipRole {
   committee?: string;
   organization?: string;
   period?: string;
+  description?: string;
 }
 
 export function LeadershipGovernanceSection({ data }: { data?: LeadershipRole[] }) {
-  const roles = data && data.length > 0 ? data : [
-    {
-      _id: "1",
-      role: "General Rapporteur",
-      committee: "Specialized Technical Committee (Mathematics-Physics-Chemistry)",
-      organization: "African and Malagasy Council for Higher Education (CAMES)",
-      period: "2021–2023",
-    },
-    {
-      _id: "2",
-      role: "Member",
-      committee: "Specialized Technical Committee (Mathematics-Physics-Chemistry)",
-      organization: "CAMES",
-      period: "2016–2023",
-    },
-    {
-      _id: "3",
-      role: "Member",
-      committee: "Scientific Council",
-      organization: "Abdou Moumouni University",
-      period: "2021–2024",
-    },
-    {
-      _id: "4",
-      role: "Chairman",
-      committee: "Scientific and Teaching Council",
-      organization: "École Supérieure de Communication Électronique et de la Poste",
-      period: "Previous",
-    }
-  ];
+  const hasData = data && data.length > 0;
 
   return (
     <AnimatedSection id="governance" className="section-padding bg-gray-50 dark:bg-executive-darkSurface relative overflow-hidden">
@@ -56,28 +29,33 @@ export function LeadershipGovernanceSection({ data }: { data?: LeadershipRole[] 
           <div className="mt-4 h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {roles.map((role) => (
-            <div key={role._id} className="executive-card p-8 group hover:border-executive-gold/40 hover:shadow-xl transition-all duration-300 flex items-start space-x-5 relative overflow-hidden bg-white dark:bg-executive-darkBg">
-               {/* Hover Accent Line */}
-               <div className="absolute left-0 top-0 bottom-0 w-1 bg-executive-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-               
-              <div className="flex-shrink-0 p-3.5 bg-gray-50 dark:bg-white/5 rounded-xl text-executive-blue dark:text-executive-gold group-hover:bg-executive-blue/10 dark:group-hover:bg-executive-gold/10 transition-colors">
-                <Landmark className="w-7 h-7" />
-              </div>
-              <div className="flex-1">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
-                    <h4 className="text-xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
-                    {role.role}
-                    </h4>
-                    {role.period && <span className="inline-block px-3 py-1 bg-executive-gold/10 text-executive-gold text-xs font-bold rounded-full whitespace-nowrap">{role.period}</span>}
+        {hasData ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {data.map((role) => (
+              <div key={role._id} className="executive-card p-8 group hover:border-executive-gold/40 hover:shadow-xl transition-all duration-300 flex items-start space-x-5 relative overflow-hidden bg-white dark:bg-executive-darkBg">
+                 {/* Hover Accent Line */}
+                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-executive-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
+                 
+                <div className="flex-shrink-0 p-3.5 bg-gray-50 dark:bg-white/5 rounded-xl text-executive-blue dark:text-executive-gold group-hover:bg-executive-blue/10 dark:group-hover:bg-executive-gold/10 transition-colors">
+                  <Landmark className="w-7 h-7" />
                 </div>
-                {role.committee && <p className="text-sm text-gray-800 dark:text-gray-200 mb-1.5 font-semibold leading-relaxed">{role.committee}</p>}
-                {role.organization && <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{role.organization}</p>}
+                <div className="flex-1">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
+                      <h4 className="text-xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
+                      {role.role}
+                      </h4>
+                      {role.period && <span className="inline-block px-3 py-1 bg-executive-gold/10 text-executive-gold text-xs font-bold rounded-full whitespace-nowrap">{role.period}</span>}
+                  </div>
+                  {role.committee && <p className="text-sm text-gray-800 dark:text-gray-200 mb-1.5 font-semibold leading-relaxed">{role.committee}</p>}
+                  {role.organization && <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{role.organization}</p>}
+                  {role.description && <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-2">{role.description}</p>}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <PendingContent sectionName="Leadership & Governance Roles" />
+        )}
 
       </div>
     </AnimatedSection>
