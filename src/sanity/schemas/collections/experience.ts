@@ -1,26 +1,26 @@
-import { defineField, defineType } from 'sanity'
+import { defineType, defineField } from 'sanity';
 
 export default defineType({
   name: 'experience',
-  title: 'Experience & Leadership',
+  title: 'Experience',
   type: 'document',
   fields: [
     defineField({
-      name: 'position',
-      title: 'Position / Title',
+      name: 'role',
+      title: 'Role / Job Title',
       type: 'string',
-      validation: (rule) => rule.required(),
+      validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'organization',
       title: 'Organization',
       type: 'string',
-      validation: (rule) => rule.required(),
+      validation: Rule => Rule.required(),
     }),
     defineField({
-      name: 'logo',
-      title: 'Organization Logo',
-      type: 'image',
+      name: 'location',
+      title: 'Location',
+      type: 'string',
     }),
     defineField({
       name: 'startDate',
@@ -30,33 +30,33 @@ export default defineType({
     }),
     defineField({
       name: 'endDate',
-      title: 'End Date',
+      title: 'End Date (Leave blank if current)',
       type: 'date',
       options: { dateFormat: 'YYYY-MM' },
     }),
     defineField({
-      name: 'isCurrent',
-      title: 'Current Role',
+      name: 'current',
+      title: 'Currently working here?',
       type: 'boolean',
       initialValue: false,
     }),
     defineField({
       name: 'description',
-      title: 'Key Responsibilities',
-      type: 'text',
+      title: 'Description',
+      type: 'array',
+      of: [{ type: 'block' }],
     }),
     defineField({
-      name: 'achievements',
-      title: 'Strategic Achievements',
-      type: 'array',
-      of: [{ type: 'string' }],
-    }),
+      name: 'orderRank',
+      title: 'Order Rank',
+      type: 'string',
+      hidden: true,
+    })
   ],
   preview: {
     select: {
-      title: 'position',
+      title: 'role',
       subtitle: 'organization',
-      media: 'logo',
-    },
-  },
-})
+    }
+  }
+});

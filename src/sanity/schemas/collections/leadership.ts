@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineType, defineField } from 'sanity';
 
 export default defineType({
   name: 'leadership',
@@ -9,28 +9,30 @@ export default defineType({
       name: 'role',
       title: 'Role',
       type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'committee',
-      title: 'Committee',
-      type: 'string',
+      validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'organization',
       title: 'Organization',
       type: 'string',
+      validation: Rule => Rule.required(),
     }),
     defineField({
-      name: 'period',
-      title: 'Period (e.g. 2021-2023)',
-      type: 'string',
+      name: 'description',
+      title: 'Description',
+      type: 'text',
     }),
+    defineField({
+      name: 'orderRank',
+      title: 'Order Rank',
+      type: 'string',
+      hidden: true,
+    })
   ],
   preview: {
     select: {
       title: 'role',
       subtitle: 'organization',
-    },
-  },
-})
+    }
+  }
+});

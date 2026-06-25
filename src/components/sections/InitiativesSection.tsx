@@ -2,38 +2,38 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { AnimatedSection } from "../ui/AnimatedSection";
 
-export function InitiativesSection() {
-  const initiatives = [
+export function InitiativesSection({ data }: { data?: any[] }) {
+  const initiatives = data && data.length > 0 ? data : [
     {
-      id: 1,
+      _id: "1",
       title: "Quality Education Reform",
       category: "Education Policy",
       summary: "Implementation of PRAQUE-AO to strengthen educational quality and institutional performance across West Africa.",
-      image: "/placeholder/initiative-1.jpg",
+      imageUrl: "/placeholder/initiative-1.jpg",
       slug: "quality-education-reform"
     },
     {
-      id: 2,
+      _id: "2",
       title: "Centre of Excellence Development",
       category: "STEM Education",
       summary: "Establishment of CEA/IEA-MS4SSA to advance mathematics and science teaching and learning throughout Sub-Saharan Africa.",
-      image: "/placeholder/initiative-2.jpg",
+      imageUrl: "/placeholder/initiative-2.jpg",
       slug: "centre-of-excellence"
     },
     {
-      id: 3,
+      _id: "3",
       title: "Higher Education Transformation",
       category: "Academic Reform",
       summary: "Modernization and reform of undergraduate and graduate academic programmes to align with evolving educational and workforce needs.",
-      image: "/placeholder/initiative-3.jpg",
+      imageUrl: "/placeholder/initiative-3.jpg",
       slug: "higher-education-transformation"
     },
     {
-      id: 4,
+      _id: "4",
       title: "Research Capacity Building",
       category: "Scientific Innovation",
       summary: "Development of research ecosystems, doctoral supervision, and scientific collaboration networks across Africa.",
-      image: "/placeholder/initiative-4.jpg",
+      imageUrl: "/placeholder/initiative-4.jpg",
       slug: "research-capacity-building"
     }
   ];
@@ -56,9 +56,12 @@ export function InitiativesSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-          {initiatives.map((initiative, idx) => (
-            <div key={initiative.id} className="executive-card overflow-hidden group flex flex-col sm:flex-row hover:shadow-xl hover:border-executive-gold/40 transition-all duration-300">
-              <div className="relative h-48 sm:h-auto sm:w-2/5 bg-gray-100 dark:bg-gray-800/50 overflow-hidden">
+          {initiatives.map((initiative: any, idx: number) => (
+            <div key={initiative._id} className="executive-card overflow-hidden group flex flex-col sm:flex-row hover:shadow-xl hover:border-executive-gold/40 transition-all duration-300">
+              <div 
+                className="relative h-48 sm:h-auto sm:w-2/5 bg-gray-100 dark:bg-gray-800/50 overflow-hidden"
+                style={initiative.imageUrl ? { backgroundImage: `url(${initiative.imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+              >
                 {/* Fallback pattern if image is missing */}
                 <div className="absolute inset-0 dot-pattern opacity-30" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-executive-blue/10 to-transparent" />

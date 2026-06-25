@@ -1,10 +1,18 @@
 import { client } from "@/sanity/lib/client";
 import {
-  homepageQuery,
-  awardsQuery,
-  testimonialsQuery,
-  leadershipQuery,
+  heroQuery,
+  metricsQuery,
   profileQuery,
+  researchQuery,
+  contactQuery,
+  experienceQuery,
+  leadershipQuery,
+  initiativesQuery,
+  awardsQuery,
+  publicationsQuery,
+  speakingQuery,
+  testimonialsQuery,
+  blogPostsQuery,
 } from "@/sanity/lib/queries";
 
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -25,37 +33,59 @@ import { ContactSection } from "@/components/sections/ContactSection";
 export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function Home() {
-  const [homepage, awards, testimonials, leadershipRoles, profile] = await Promise.all([
-    client.fetch(homepageQuery),
-    client.fetch(awardsQuery),
-    client.fetch(testimonialsQuery),
-    client.fetch(leadershipQuery),
+  const [
+    hero,
+    metrics,
+    profile,
+    research,
+    contact,
+    experience,
+    leadershipRoles,
+    initiatives,
+    awards,
+    publications,
+    speaking,
+    testimonials,
+    blogPosts
+  ] = await Promise.all([
+    client.fetch(heroQuery),
+    client.fetch(metricsQuery),
     client.fetch(profileQuery),
+    client.fetch(researchQuery),
+    client.fetch(contactQuery),
+    client.fetch(experienceQuery),
+    client.fetch(leadershipQuery),
+    client.fetch(initiativesQuery),
+    client.fetch(awardsQuery),
+    client.fetch(publicationsQuery),
+    client.fetch(speakingQuery),
+    client.fetch(testimonialsQuery),
+    client.fetch(blogPostsQuery),
   ]);
-  const hero = homepage?.hero ?? {
+
+  const defaultHero = hero ?? {
     title: 'Saido',
     subtitle: 'Welcome to Saido',
     description: 'Empowering research and collaboration.',
     imageUrl: undefined,
-    biographyUrl: undefined,
+    cvUrl: undefined,
   };
-  console.log('Hero data:', hero);
 
   return (
     <main className="w-full">
-      <HeroSection data={hero} />
-      <MetricsSection data={homepage?.metrics} />
+      <HeroSection data={defaultHero} />
+      <MetricsSection data={metrics} />
       <ExecutiveProfile data={profile} />
-      <ExperienceTimeline />
+      <ExperienceTimeline data={experience} />
       <LeadershipGovernanceSection data={leadershipRoles} />
-      <ResearchImpactSection />
-      <InitiativesSection />
+      <ResearchImpactSection data={research} />
+      <InitiativesSection data={initiatives} />
       <AwardsSection data={awards} />
-      <PublicationsSection />
-      <SpeakingSection />
+      <PublicationsSection data={publications} />
+      <SpeakingSection data={speaking} />
       <TestimonialsSection data={testimonials} />
-      <BlogSection />
-      <ContactSection />
+      <BlogSection data={blogPosts} />
+      <ContactSection data={contact} />
     </main>
   );
 }

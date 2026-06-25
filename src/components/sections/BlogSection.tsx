@@ -2,31 +2,31 @@ import { AnimatedSection } from "../ui/AnimatedSection";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-export function BlogSection() {
-  const posts = [
+export function BlogSection({ data }: { data?: any[] }) {
+  const posts = data && data.length > 0 ? data : [
     {
-      id: 1,
+      _id: "1",
       title: "The Imperative of Digital Sovereignty in the Global South",
       category: "Digital Transformation",
-      date: "Nov 12, 2024",
+      publishedAt: "Nov 12, 2024",
       readTime: "6 min read",
       excerpt: "How emerging nations can balance the need for foreign technological investment with the requirement to protect critical citizen data and build local capacity.",
       slug: "digital-sovereignty"
     },
     {
-      id: 2,
+      _id: "2",
       title: "Rethinking the Role of Multilateral Development Banks",
       category: "Governance",
-      date: "Oct 28, 2024",
+      publishedAt: "Oct 28, 2024",
       readTime: "8 min read",
       excerpt: "A critical look at current funding models and proposed reforms to accelerate capital deployment for climate adaptation projects.",
       slug: "rethinking-mdbs"
     },
     {
-      id: 3,
+      _id: "3",
       title: "Empowering the Next Generation of Policy Leaders",
       category: "Leadership",
-      date: "Sep 15, 2024",
+      publishedAt: "Sep 15, 2024",
       readTime: "5 min read",
       excerpt: "Lessons learned from establishing youth advisory councils across the African continent and integrating their voices into national planning.",
       slug: "empowering-policy-leaders"
@@ -54,14 +54,14 @@ export function BlogSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <article key={post.id} className="executive-card p-8 flex flex-col group hover:border-executive-gold/40 hover:shadow-xl transition-all duration-300 bg-white dark:bg-executive-darkBg">
+          {posts.map((post: any) => (
+            <article key={post._id} className="executive-card p-8 flex flex-col group hover:border-executive-gold/40 hover:shadow-xl transition-all duration-300 bg-white dark:bg-executive-darkBg">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-xs font-bold uppercase tracking-wider text-executive-gold bg-executive-gold/10 px-3 py-1 rounded-full">
                   {post.category}
                 </span>
                 <span className="text-xs font-medium text-gray-400">
-                  {post.readTime}
+                  {post.readTime || "5 min read"}
                 </span>
               </div>
               
@@ -77,7 +77,9 @@ export function BlogSection() {
               </p>
               
               <div className="flex items-center justify-between mt-auto pt-5 border-t border-gray-100 dark:border-gray-800">
-                <span className="text-sm font-bold text-gray-900 dark:text-gray-300">{post.date}</span>
+                <span className="text-sm font-bold text-gray-900 dark:text-gray-300">
+                  {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ""}
+                </span>
                 <span className="inline-flex items-center text-sm font-bold text-executive-blue dark:text-white group-hover:text-executive-gold transition-colors">
                   Read Article <ArrowUpRight className="ml-1 w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                 </span>

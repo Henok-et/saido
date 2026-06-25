@@ -1,10 +1,10 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { MapPin, Calendar, ExternalLink, Mic } from "lucide-react";
 
-export function SpeakingSection() {
-  const events = [
+export function SpeakingSection({ data }: { data?: any[] }) {
+  const events = data && data.length > 0 ? data : [
     {
-      id: 1,
+      _id: "1",
       title: "Building Resilient Digital Economies",
       event: "World Economic Forum Annual Meeting",
       role: "Keynote Speaker",
@@ -12,7 +12,7 @@ export function SpeakingSection() {
       location: "Davos, Switzerland",
     },
     {
-      id: 2,
+      _id: "2",
       title: "Financing the Green Transition",
       event: "COP28 Climate Summit",
       role: "Panelist",
@@ -20,7 +20,7 @@ export function SpeakingSection() {
       location: "Dubai, UAE",
     },
     {
-      id: 3,
+      _id: "3",
       title: "Youth Innovation in Africa",
       event: "Africa Tech Summit",
       role: "Chair",
@@ -48,13 +48,13 @@ export function SpeakingSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {events.map((evt) => (
-            <div key={evt.id} className="executive-card p-8 flex flex-col group hover:border-executive-gold/40 hover:shadow-xl transition-all duration-300 relative bg-white dark:bg-executive-darkSurface">
+          {events.map((evt: any) => (
+            <div key={evt._id} className="executive-card p-8 flex flex-col group hover:border-executive-gold/40 hover:shadow-xl transition-all duration-300 relative bg-white dark:bg-executive-darkSurface">
               
               <div className="absolute top-0 left-0 w-full h-1 bg-executive-gold transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
 
               <span className="inline-block px-3 py-1 bg-executive-blue/5 dark:bg-white/5 text-executive-blue dark:text-executive-gold text-xs font-bold tracking-wider uppercase rounded-full mb-5 w-fit">
-                {evt.role}
+                {evt.role || "Speaker"}
               </span>
               
               <h3 className="text-2xl font-playfair font-bold text-gray-900 dark:text-white mb-3 leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
@@ -77,7 +77,7 @@ export function SpeakingSection() {
               </div>
 
               <div className="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800">
-                 <a href="#" className="inline-flex items-center text-sm font-bold text-gray-900 dark:text-white group-hover:text-executive-gold transition-colors">
+                 <a href={evt.link || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-bold text-gray-900 dark:text-white group-hover:text-executive-gold transition-colors">
                   View Details <ExternalLink className="ml-1.5 w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                 </a>
               </div>

@@ -2,10 +2,10 @@ import { AnimatedSection } from "../ui/AnimatedSection";
 import { FileText, Download, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
-export function PublicationsSection() {
-  const publications = [
+export function PublicationsSection({ data }: { data?: any[] }) {
+  const publications = data && data.length > 0 ? data : [
     {
-      id: 1,
+      _id: "1",
       title: "The Future of Digital Trade in Sub-Saharan Africa",
       type: "White Paper",
       journal: "Global Economic Review",
@@ -13,7 +13,7 @@ export function PublicationsSection() {
       abstract: "An analysis of how mobile money infrastructure and cross-border data frameworks are accelerating intra-African trade.",
     },
     {
-      id: 2,
+      _id: "2",
       title: "Climate Finance: Bridging the Gap in Emerging Markets",
       type: "Policy Brief",
       journal: "UN Development Programme",
@@ -21,7 +21,7 @@ export function PublicationsSection() {
       abstract: "Policy recommendations for increasing private sector participation in climate-resilient infrastructure funding.",
     },
     {
-      id: 3,
+      _id: "3",
       title: "Governance in the Age of AI",
       type: "Research Paper",
       journal: "Oxford Policy Institute",
@@ -48,8 +48,8 @@ export function PublicationsSection() {
         </div>
 
         <div className="space-y-6">
-          {publications.map((pub) => (
-            <div key={pub.id} className="executive-card p-6 md:p-8 flex flex-col md:flex-row md:items-start justify-between gap-8 hover:shadow-xl hover:border-executive-gold/40 transition-all duration-300 group bg-white dark:bg-executive-darkSurface relative overflow-hidden">
+          {publications.map((pub: any) => (
+            <div key={pub._id} className="executive-card p-6 md:p-8 flex flex-col md:flex-row md:items-start justify-between gap-8 hover:shadow-xl hover:border-executive-gold/40 transition-all duration-300 group bg-white dark:bg-executive-darkSurface relative overflow-hidden">
                {/* Accent Border */}
                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-executive-gold/20 via-executive-gold to-executive-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -75,12 +75,21 @@ export function PublicationsSection() {
               </div>
 
               <div className="flex flex-row md:flex-col gap-3 shrink-0 md:pt-1">
-                <a href="#" className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-bold rounded-lg text-white bg-executive-blue hover:bg-executive-blue/90 dark:bg-white/10 dark:hover:bg-white/20 transition-all duration-200 w-full md:w-auto shadow-sm">
-                  <Download className="mr-2 h-4 w-4" /> PDF
-                </a>
-                <a href="#" className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-200 dark:border-gray-700 text-sm font-bold rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-transparent hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-200 w-full md:w-auto">
-                  <FileText className="mr-2 h-4 w-4" /> Citation
-                </a>
+                {pub.pdfUrl && (
+                  <a href={pub.pdfUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-bold rounded-lg text-white bg-executive-blue hover:bg-executive-blue/90 dark:bg-white/10 dark:hover:bg-white/20 transition-all duration-200 w-full md:w-auto shadow-sm">
+                    <Download className="mr-2 h-4 w-4" /> PDF
+                  </a>
+                )}
+                {pub.externalLink && (
+                  <a href={pub.externalLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-200 dark:border-gray-700 text-sm font-bold rounded-lg text-gray-700 dark:text-gray-300 bg-white dark:bg-transparent hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-200 w-full md:w-auto">
+                    <FileText className="mr-2 h-4 w-4" /> Citation
+                  </a>
+                )}
+                {!pub.pdfUrl && !pub.externalLink && (
+                   <a href="#" className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-bold rounded-lg text-white bg-executive-blue hover:bg-executive-blue/90 dark:bg-white/10 dark:hover:bg-white/20 transition-all duration-200 w-full md:w-auto shadow-sm">
+                    <Download className="mr-2 h-4 w-4" /> PDF
+                  </a>
+                )}
               </div>
 
             </div>

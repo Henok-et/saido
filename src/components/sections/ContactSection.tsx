@@ -4,12 +4,12 @@ import { useState } from "react";
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { Mail, Phone, MapPin } from "lucide-react";
 
-export function ContactSection() {
+export function ContactSection({ data }: { data?: any }) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    subject: "Speaking Engagement",
+    subject: data?.inquiryTypes?.[0] || "Speaking Engagement",
     message: "",
   });
   const [status, setStatus] = useState<{
@@ -17,6 +17,13 @@ export function ContactSection() {
     message: string;
   }>({ type: null, message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const inquiryTypes = data?.inquiryTypes || [
+    "Speaking Engagement",
+    "Media Inquiry",
+    "Policy Consultation",
+    "General Message"
+  ];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -104,10 +111,10 @@ export function ContactSection() {
           <div className="lg:col-span-5">
             <span className="section-label mb-3 block">Get in Touch</span>
             <h2 className="font-playfair font-bold text-4xl md:text-5xl text-white mb-6 leading-tight">
-              Contact the <br/><span className="text-gradient-gold">Executive Office</span>
+              {data?.title || <><span className="text-gradient-gold">Get in Touch</span></>}
             </h2>
             <p className="text-gray-400 mb-12 max-w-md leading-relaxed text-lg">
-              For speaking inquiries, media requests, or policy consultations, please reach out to Prof. Saidou's office.
+              {data?.description || "For speaking inquiries, media requests, or policy consultations, please reach out to Prof. Saidou's office."}
             </p>
 
             <div className="space-y-8">
@@ -117,7 +124,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-bold text-white mb-1 uppercase tracking-wider text-xs">Email</h4>
-                  <p className="text-gray-300 font-medium">office@amarasaido.com</p>
+                  <p className="text-gray-300 font-medium">{data?.email || "office@amarasaido.com"}</p>
                 </div>
               </div>
               
@@ -127,7 +134,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-bold text-white mb-1 uppercase tracking-wider text-xs">Phone</h4>
-                  <p className="text-gray-300 font-medium">+41 22 123 4567</p>
+                  <p className="text-gray-300 font-medium">{data?.phone || "+41 22 123 4567"}</p>
                 </div>
               </div>
 
@@ -137,7 +144,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <h4 className="font-bold text-white mb-1 uppercase tracking-wider text-xs">Office</h4>
-                  <p className="text-gray-300 font-medium leading-relaxed">African Union Commission<br/>Addis Ababa, Ethiopia</p>
+                  <p className="text-gray-300 font-medium leading-relaxed whitespace-pre-wrap">{data?.address || "African Union Commission\nAddis Ababa, Ethiopia"}</p>
                 </div>
               </div>
             </div>
@@ -211,10 +218,9 @@ export function ContactSection() {
                     disabled={isSubmitting}
                     className="w-full px-5 py-3.5 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-executive-gold focus:border-transparent text-white transition-all disabled:opacity-50 appearance-none"
                     >
-                    <option className="bg-executive-darkBg">Speaking Engagement</option>
-                    <option className="bg-executive-darkBg">Media Inquiry</option>
-                    <option className="bg-executive-darkBg">Policy Consultation</option>
-                    <option className="bg-executive-darkBg">General Message</option>
+                    {inquiryTypes.map((type: string, idx: number) => (
+                      <option key={idx} className="bg-executive-darkBg">{type}</option>
+                    ))}
                     </select>
                 </div>
 

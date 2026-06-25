@@ -1,25 +1,30 @@
-import profile from './documents/profile'
-import experience from './documents/experience'
-import initiative from './documents/initiative'
-import publication from './documents/publication'
-import speaking from './documents/speaking'
-import media from './documents/media'
-import blogPost from './documents/blogPost'
-import homepage from './documents/homepage'
-import award from './documents/award'
-import testimonial from './documents/testimonial'
-import leadership from './documents/leadership'
+import hero from './singletons/hero'
+import metrics from './singletons/metrics'
+import profile from './singletons/profile'
+import research from './singletons/research'
+import contact from './singletons/contact'
+
+import experience from './collections/experience'
+import leadership from './collections/leadership'
+import initiative from './collections/initiative'
+import award from './collections/award'
+import publication from './collections/publication'
+import speaking from './collections/speaking'
+import testimonial from './collections/testimonial'
+import blogPost from './collections/blogPost'
 
 export const schemaTypes = [
-  homepage,
+  hero,
+  metrics,
   profile,
+  research,
+  contact,
   experience,
+  leadership,
   initiative,
+  award,
   publication,
   speaking,
-  media,
-  blogPost,
-  award,
   testimonial,
-  leadership,
+  blogPost,
 ]

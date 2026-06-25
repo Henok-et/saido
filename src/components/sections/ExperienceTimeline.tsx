@@ -3,61 +3,44 @@ import { motion } from "framer-motion";
 
 interface ExperienceItem {
   _id: string;
-  position: string;
+  role: string;
   organization: string;
   startDate?: string;
   endDate?: string;
-  isCurrent?: boolean;
-  description?: string;
+  current?: boolean;
+  description?: any;
   achievements?: string[];
 }
 
 const FALLBACK_EXPERIENCES: ExperienceItem[] = [
   {
     _id: "1",
-    position: "Director, Education, Science, Technology and Innovation (ESTI)",
+    role: "Director, Education, Science, Technology and Innovation (ESTI)",
     organization: "African Union Commission",
-    isCurrent: true,
+    current: true,
     description: "Providing strategic leadership for continental initiatives that advance education, research, innovation, skills development, and scientific cooperation across all 55 AU member states.",
-    achievements: [
-      "Education Policy & STEM Advancement",
-      "Science & Research Strategy",
-      "Technology & Innovation Frameworks",
-      "Skills Development Programmes",
-      "Continental Research Cooperation",
-      "GMES & Africa Programme Oversight",
-    ],
   },
   {
     _id: "2",
-    position: "Director",
+    role: "Director",
     organization: "École Normale Supérieure (ENS), Abdou Moumouni University",
-    isCurrent: false,
+    current: false,
     description: "Led institutional transformation focused on educational quality, academic excellence, and teacher training modernization for over six years.",
-    achievements: [
-      "Implemented PRAQUE-AO: Regional Programme for Quality Education in West Africa",
-      "Established CEA/IEA-MS4SSA: African Centre of Excellence in Mathematics & Science",
-      "Led reforms of Bachelor's and Master's degree programmes",
-      "Chaired Scientific and Teaching Council of ESCEP",
-      "Strengthened quality assurance and teacher education systems",
-    ],
   },
   {
     _id: "3",
-    position: "Deputy Director",
+    role: "Deputy Director",
     organization: "École Normale Supérieure (ENS), Abdou Moumouni University",
-    isCurrent: false,
+    current: false,
     description: "Supported institutional governance, academic planning, and operational management under the Director.",
-    achievements: [],
   },
   {
     _id: "4",
-    position: "Director, Laboratory of Energetics, Electronics & Automation",
+    role: "Director, Laboratory of Energetics, Electronics & Automation",
     organization: "Abdou Moumouni University – Niger",
     startDate: "2014",
-    isCurrent: true,
+    current: true,
     description: "Leading multidisciplinary research in Energetics, Electrical Engineering, and Industrial Computing since 2014.",
-    achievements: [],
   },
 ];
 
@@ -65,9 +48,19 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
   const experiences = data && data.length > 0 ? data : FALLBACK_EXPERIENCES;
 
   const formatPeriod = (exp: ExperienceItem) => {
-    if (exp.isCurrent) return exp.startDate ? `${exp.startDate} – Present` : "Present";
+    if (exp.current) return exp.startDate ? `${exp.startDate} – Present` : "Present";
     if (exp.startDate && exp.endDate) return `${exp.startDate} – ${exp.endDate}`;
     return "Previous";
+  };
+
+  const renderDescription = (desc: any) => {
+    if (!desc) return null;
+    if (typeof desc === 'string') return <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{desc}</p>;
+    // If it's Portable Text array, just render the text of the first block for now
+    if (Array.isArray(desc) && desc[0]?.children) {
+      return <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{desc.map((b:any) => b.children.map((c:any) => c.text).join('')).join('\n')}</p>;
+    }
+    return null;
   };
 
   return (
@@ -104,34 +97,21 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
 
                     {/* Period badge */}
                     <div className="inline-flex items-center gap-2 mb-4">
-                      <div className={`w-2 h-2 rounded-full ${exp.isCurrent ? "bg-executive-gold animate-pulse-gold" : "bg-gray-400"}`} />
+                      <div className={`w-2 h-2 rounded-full ${exp.current ? "bg-executive-gold animate-pulse-gold" : "bg-gray-400"}`} />
                       <span className="text-xs font-bold tracking-wider text-executive-gold uppercase">
                         {formatPeriod(exp)}
                       </span>
-                      {exp.isCurrent && (
+                      {exp.current && (
                         <span className="text-[10px] font-semibold text-white bg-executive-gold rounded-full px-2 py-0.5">Current</span>
                       )}
                     </div>
 
                     <h3 className="font-playfair font-bold text-lg md:text-xl text-gray-900 dark:text-white mb-1 leading-snug group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
-                      {exp.position}
+                      {exp.role}
                     </h3>
                     <div className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-4">{exp.organization}</div>
 
-                    {exp.description && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{exp.description}</p>
-                    )}
-
-                    {exp.achievements && exp.achievements.length > 0 && (
-                      <ul className="space-y-2">
-                        {exp.achievements.map((a, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <div className="w-1.5 h-1.5 rounded-full bg-executive-gold mt-2 flex-shrink-0" />
-                            {a}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    {renderDescription(exp.description)}
                   </div>
                 </div>
 
