@@ -1,5 +1,6 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { Trophy, Star } from "lucide-react";
+import { PendingContent } from "../ui/PendingContent";
 
 interface AwardItem {
   _id: string;
@@ -10,22 +11,10 @@ interface AwardItem {
 }
 
 export function AwardsSection({ data }: { data?: AwardItem[] }) {
-  const awards = data && data.length > 0 ? data : [
-    {
-      _id: "1",
-      title: "Officer of the Order of Academic Palms of Niger",
-      organization: "Republic of Niger",
-      year: "",
-      description: "Recognized for outstanding contributions to higher education, scientific research, and academic leadership in Niger.",
-    },
-    {
-      _id: "2",
-      title: "Knight of the International Order of Academic Palms of CAMES",
-      organization: "African and Malagasy Council for Higher Education (CAMES)",
-      year: "",
-      description: "Awarded in recognition of significant contributions to academic excellence and higher education development across Africa.",
-    },
-  ];
+  if (!data || data.length === 0) {
+    return <PendingContent sectionName="Awards & Honors" />;
+  }
+  const awards = data;
 
   return (
     <AnimatedSection

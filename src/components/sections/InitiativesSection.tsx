@@ -1,42 +1,13 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { AnimatedSection } from "../ui/AnimatedSection";
+import { PendingContent } from "../ui/PendingContent";
 
 export function InitiativesSection({ data }: { data?: any[] }) {
-  const initiatives = data && data.length > 0 ? data : [
-    {
-      _id: "1",
-      title: "Quality Education Reform",
-      category: "Education Policy",
-      summary: "Implementation of PRAQUE-AO to strengthen educational quality and institutional performance across West Africa.",
-      imageUrl: "/placeholder/initiative-1.jpg",
-      slug: "quality-education-reform"
-    },
-    {
-      _id: "2",
-      title: "Centre of Excellence Development",
-      category: "STEM Education",
-      summary: "Establishment of CEA/IEA-MS4SSA to advance mathematics and science teaching and learning throughout Sub-Saharan Africa.",
-      imageUrl: "/placeholder/initiative-2.jpg",
-      slug: "centre-of-excellence"
-    },
-    {
-      _id: "3",
-      title: "Higher Education Transformation",
-      category: "Academic Reform",
-      summary: "Modernization and reform of undergraduate and graduate academic programmes to align with evolving educational and workforce needs.",
-      imageUrl: "/placeholder/initiative-3.jpg",
-      slug: "higher-education-transformation"
-    },
-    {
-      _id: "4",
-      title: "Research Capacity Building",
-      category: "Scientific Innovation",
-      summary: "Development of research ecosystems, doctoral supervision, and scientific collaboration networks across Africa.",
-      imageUrl: "/placeholder/initiative-4.jpg",
-      slug: "research-capacity-building"
-    }
-  ];
+  if (!data || data.length === 0) {
+    return <PendingContent sectionName="Strategic Initiatives" />;
+  }
+  const initiatives = data;
 
   return (
     <AnimatedSection id="initiatives" className="section-padding bg-white dark:bg-executive-darkBg border-y border-gray-100 dark:border-gray-800">

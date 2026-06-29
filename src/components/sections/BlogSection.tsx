@@ -1,37 +1,13 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { PendingContent } from "../ui/PendingContent";
 
 export function BlogSection({ data }: { data?: any[] }) {
-  const posts = data && data.length > 0 ? data : [
-    {
-      _id: "1",
-      title: "The Imperative of Digital Sovereignty in the Global South",
-      category: "Digital Transformation",
-      publishedAt: "Nov 12, 2024",
-      readTime: "6 min read",
-      excerpt: "How emerging nations can balance the need for foreign technological investment with the requirement to protect critical citizen data and build local capacity.",
-      slug: "digital-sovereignty"
-    },
-    {
-      _id: "2",
-      title: "Rethinking the Role of Multilateral Development Banks",
-      category: "Governance",
-      publishedAt: "Oct 28, 2024",
-      readTime: "8 min read",
-      excerpt: "A critical look at current funding models and proposed reforms to accelerate capital deployment for climate adaptation projects.",
-      slug: "rethinking-mdbs"
-    },
-    {
-      _id: "3",
-      title: "Empowering the Next Generation of Policy Leaders",
-      category: "Leadership",
-      publishedAt: "Sep 15, 2024",
-      readTime: "5 min read",
-      excerpt: "Lessons learned from establishing youth advisory councils across the African continent and integrating their voices into national planning.",
-      slug: "empowering-policy-leaders"
-    }
-  ];
+  if (!data || data.length === 0) {
+    return <PendingContent sectionName="Blog & Articles" />;
+  }
+  const posts = data;
 
   return (
     <AnimatedSection id="blog" className="section-padding bg-gray-50 dark:bg-executive-darkSurface relative overflow-hidden">

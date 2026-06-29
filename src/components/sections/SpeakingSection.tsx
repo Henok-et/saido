@@ -1,33 +1,12 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { MapPin, Calendar, ExternalLink, Mic } from "lucide-react";
+import { PendingContent } from "../ui/PendingContent";
 
 export function SpeakingSection({ data }: { data?: any[] }) {
-  const events = data && data.length > 0 ? data : [
-    {
-      _id: "1",
-      title: "Building Resilient Digital Economies",
-      event: "World Economic Forum Annual Meeting",
-      role: "Keynote Speaker",
-      date: "January 15, 2024",
-      location: "Davos, Switzerland",
-    },
-    {
-      _id: "2",
-      title: "Financing the Green Transition",
-      event: "COP28 Climate Summit",
-      role: "Panelist",
-      date: "December 5, 2023",
-      location: "Dubai, UAE",
-    },
-    {
-      _id: "3",
-      title: "Youth Innovation in Africa",
-      event: "Africa Tech Summit",
-      role: "Chair",
-      date: "February 20, 2023",
-      location: "Kigali, Rwanda",
-    }
-  ];
+  if (!data || data.length === 0) {
+    return <PendingContent sectionName="Speaking Engagements" />;
+  }
+  const events = data;
 
   return (
     <AnimatedSection id="speaking" className="section-padding bg-white dark:bg-executive-darkBg relative overflow-hidden border-t border-gray-100 dark:border-gray-800">

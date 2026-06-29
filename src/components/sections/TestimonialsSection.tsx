@@ -1,6 +1,7 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { Quote } from "lucide-react";
 import Image from "next/image";
+import { PendingContent } from "../ui/PendingContent";
 
 interface TestimonialItem {
   _id: string;
@@ -12,24 +13,10 @@ interface TestimonialItem {
 }
 
 export function TestimonialsSection({ data }: { data?: TestimonialItem[] }) {
-  const testimonials = data && data.length > 0 ? data : [
-    {
-      _id: "1",
-      quote: "Prof. Saidou's strategic vision has fundamentally reshaped how we approach education governance at the continental level. His leadership is instrumental in advancing Africa's scientific future.",
-      author: "H.E. Amina Traore",
-      title: "Former Minister of Education",
-      organization: "Republic of Mali",
-      imageUrl: "",
-    },
-    {
-      _id: "2",
-      quote: "A rare combination of rigorous academic insight and pragmatic policy execution. The work done under Prof. Saidou's direction stands as a blueprint for modern African higher education reform.",
-      author: "Prof. James Sterling",
-      title: "Director of Global Education Studies",
-      organization: "Oxford Institute for Development",
-      imageUrl: "",
-    },
-  ];
+  if (!data || data.length === 0) {
+    return <PendingContent sectionName="Testimonials" />;
+  }
+  const testimonials = data;
 
   return (
     <AnimatedSection

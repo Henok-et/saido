@@ -1,34 +1,13 @@
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { FileText, Download, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { PendingContent } from "../ui/PendingContent";
 
 export function PublicationsSection({ data }: { data?: any[] }) {
-  const publications = data && data.length > 0 ? data : [
-    {
-      _id: "1",
-      title: "The Future of Digital Trade in Sub-Saharan Africa",
-      type: "White Paper",
-      journal: "Global Economic Review",
-      date: "October 2023",
-      abstract: "An analysis of how mobile money infrastructure and cross-border data frameworks are accelerating intra-African trade.",
-    },
-    {
-      _id: "2",
-      title: "Climate Finance: Bridging the Gap in Emerging Markets",
-      type: "Policy Brief",
-      journal: "UN Development Programme",
-      date: "March 2022",
-      abstract: "Policy recommendations for increasing private sector participation in climate-resilient infrastructure funding.",
-    },
-    {
-      _id: "3",
-      title: "Governance in the Age of AI",
-      type: "Research Paper",
-      journal: "Oxford Policy Institute",
-      date: "November 2021",
-      abstract: "Examining the regulatory challenges and opportunities presented by artificial intelligence in public sector administration.",
-    }
-  ];
+  if (!data || data.length === 0) {
+    return <PendingContent sectionName="Publications" />;
+  }
+  const publications = data;
 
   return (
     <AnimatedSection id="publications" className="section-padding bg-gray-50 dark:bg-executive-darkBg">
