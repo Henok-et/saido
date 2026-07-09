@@ -18,7 +18,10 @@ export const profileQuery = groq`*[_type == "profile"][0] {
   "title": currentTitle,
   "bio": biography,
   "headshotUrl": profileImage.asset->url,
-  "cvUrl": cvFile.asset->url
+  "cvUrl": cvFile.asset->url,
+  expertise,
+  education,
+  certifications
 }`
 
 export const researchQuery = groq`*[_type == "research"][0] {
