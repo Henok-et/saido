@@ -13,7 +13,7 @@ export const metricsQuery = groq`*[_type == "metrics"][0] {
   items
 }`
 
-export const profileQuery = groq`*[_type == "profile"][0] {
+export const profileQuery = groq`*[_type == "profile" && _id == "profile"][0] {
   name,
   "title": currentTitle,
   "bio": biography,
