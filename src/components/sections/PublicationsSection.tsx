@@ -15,8 +15,8 @@ export function PublicationsSection({ data }: { data?: any[] }) {
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-2xl">
-            <span className="section-label mb-3 block">Thought Leadership</span>
-            <h2 className="font-playfair font-bold text-4xl md:text-5xl text-gray-900 dark:text-white mb-4">
+            <span className="section-label after-label block">Thought Leadership</span>
+            <h2 className="font-playfair type-section text-gray-900 dark:text-white after-title">
               Selected Publications
             </h2>
             <div className="h-[2px] w-16 bg-executive-gold rounded-full" />
@@ -37,14 +37,16 @@ export function PublicationsSection({ data }: { data?: any[] }) {
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-executive-blue/10 text-executive-blue dark:bg-executive-gold/10 dark:text-executive-gold tracking-wide uppercase">
                     {pub.type}
                   </span>
-                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{pub.date}</span>
+                  {pub.date && (
+                    <span className="type-meta font-medium text-gray-500 dark:text-gray-400">{pub.date}</span>
+                  )}
                 </div>
                 
-                <h3 className="text-2xl font-playfair font-bold text-gray-900 dark:text-white mb-2 leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
+                <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-2 leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
                   {pub.title}
                 </h3>
                 
-                <p className="text-sm font-bold text-executive-gold mb-4 uppercase tracking-wider">
+                <p className="text-sm font-bold text-gold-ink mb-4 uppercase tracking-wider">
                   {pub.journal}
                 </p>
                 

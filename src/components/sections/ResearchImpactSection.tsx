@@ -23,11 +23,11 @@ export function ResearchImpactSection({ data }: { data?: any }) {
     <AnimatedSection id="research" className="section-padding bg-white dark:bg-executive-darkBg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center mb-16">
-          <h2 className="text-sm font-bold tracking-widest text-executive-gold uppercase mb-2">Academic Impact</h2>
-          <h3 className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 dark:text-white">
+        <div className="section-header section-header--center">
+          <span className="section-label after-label block">Academic Impact</span>
+          <h2 className="font-playfair type-section text-gray-900 dark:text-white">
             {data?.sectionTitle || "Research & Academic Impact"}
-          </h3>
+          </h2>
         </div>
 
         {hasData ? (

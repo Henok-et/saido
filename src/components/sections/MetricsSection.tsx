@@ -47,7 +47,7 @@ export function MetricsSection({ data }: { data?: MetricItem[] }) {
     : [];
 
   return (
-    <section id="metrics" className="relative py-20 bg-executive-darkBg overflow-hidden">
+    <section id="metrics" className="scene relative py-20 bg-executive-darkBg overflow-hidden">
       {/* Background accent */}
       <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-executive-gold/50 to-transparent" />
@@ -60,10 +60,10 @@ export function MetricsSection({ data }: { data?: MetricItem[] }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="section-header section-header--center"
         >
-          <span className="section-label mb-3 block">Impact by the Numbers</span>
-          <h2 className="font-playfair font-bold text-white text-3xl md:text-4xl">
+          <span className="section-label section-label-on-dark after-label block">Impact by the Numbers</span>
+          <h2 className="font-playfair type-section text-white">
             A Legacy of{" "}
             <span className="text-gradient-gold">Excellence</span>
           </h2>

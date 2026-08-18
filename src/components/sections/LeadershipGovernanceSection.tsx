@@ -21,12 +21,12 @@ export function LeadershipGovernanceSection({ data }: { data?: LeadershipRole[] 
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center mb-16">
-          <span className="section-label mb-3 block">Continental Impact</span>
-          <h2 className="font-playfair font-bold text-4xl md:text-5xl text-gray-900 dark:text-white">
+        <div className="section-header section-header--center">
+          <span className="section-label after-label block">Continental Impact</span>
+          <h2 className="font-playfair type-section text-gray-900 dark:text-white">
              Academic Governance & Leadership
           </h2>
-          <div className="mt-4 h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
+          <div className="before-title h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
         </div>
 
         {hasData ? (
@@ -41,10 +41,10 @@ export function LeadershipGovernanceSection({ data }: { data?: LeadershipRole[] 
                 </div>
                 <div className="flex-1">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-2">
-                      <h4 className="text-xl font-bold text-gray-900 dark:text-white leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
+                      <h4 className="type-card-title text-gray-900 dark:text-white group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
                       {role.role}
                       </h4>
-                      {role.period && <span className="inline-block px-3 py-1 bg-executive-gold/10 text-executive-gold text-xs font-bold rounded-full whitespace-nowrap">{role.period}</span>}
+                      {role.period && <span className="inline-block px-3 py-1 bg-executive-gold/10 text-gold-ink text-xs font-bold rounded-full whitespace-nowrap">{role.period}</span>}
                   </div>
                   {role.committee && <p className="text-sm text-gray-800 dark:text-gray-200 mb-1.5 font-semibold leading-relaxed">{role.committee}</p>}
                   {role.organization && <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{role.organization}</p>}

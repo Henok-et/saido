@@ -11,16 +11,20 @@ interface AnimatedSectionProps {
   style?: React.CSSProperties;
 }
 
+// Shared "expo-out" curve — every reveal, hover and nav transition in the
+// site moves on this one curve so motion reads as one coherent system.
+export const PREMIUM_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 export function AnimatedSection({ children, className, id, delay = 0, style }: AnimatedSectionProps) {
   return (
     <motion.section
       id={id}
-      className={className}
+      className={`scene${className ? ` ${className}` : ""}`}
       style={style}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 36 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
-      transition={{ duration: 0.6, ease: "easeOut", delay }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.8, ease: PREMIUM_EASE, delay }}
       suppressHydrationWarning
     >
       {children}

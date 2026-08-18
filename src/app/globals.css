@@ -12,10 +12,45 @@
   --gold: #C9A227;
   --gold-light: #dbb84a;
   --gold-pale: rgba(201,162,39,0.12);
+  /* Text-safe gold. The brand gold (#C9A227) is only 2.42:1 on white — a
+     WCAG AA failure for the eyebrow labels that appear on every light
+     section. This darker gold measures 4.92:1 on white while reading as
+     the same colour family. Dark surfaces keep the brighter --gold
+     (7.49:1 on the navy), which is already compliant. Decorative gold
+     (rules, borders, glows, icon fills) is unaffected either way. */
+  --gold-ink: #A16207;
+  --gold-glow: rgba(201, 162, 39, 0.55);
+
+  /* ─── Vertical rhythm ───────────────────────────────
+     Spacing named for the RELATIONSHIP between two elements rather than for
+     a pixel step. Roughly twenty different gap values were in use across the
+     sections with no rule governing which applied when — mb-3 and mb-4 alone
+     accounted for thirty usages covering what was often the same
+     relationship, so near-identical pairings picked different gaps in
+     different sections. Naming by relationship means the same pairing always
+     gets the same gap, and retuning one relationship site-wide is one edit
+     here rather than a hunt through twelve components. */
+  --space-label:   0.75rem;  /* an eyebrow label → the heading it labels */
+  --space-title:   1rem;     /* a heading → its own rule or standfirst */
+  --space-related: 1.5rem;   /* items inside one group; grid gutters */
+  --space-block:   2rem;     /* one block → the next block */
   --navy: #0F2D52;
   --navy-deep: #071525;
+
+  /* Premium motion tokens — shared easing curve for reveals, hovers and
+     nav transitions so every animated element in the site moves on the
+     same "expo-out" feel instead of mismatched per-component curves. */
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast:   0.2s;
+  --t-base:   0.35s;
+  --t-reveal: 0.7s;
+  --t-scene:  1.3s;  /* desktop section-to-section pagination scroll + crossfade —
+                         single source of truth, read at runtime by SectionPager.tsx
+                         so the scroll animation and the CSS fade never drift apart */
 }
 
+.dark,
 [data-theme="dark"] {
   --background: #0a1628;
   --foreground: #f0f0f0;
@@ -52,8 +87,8 @@
 
 /* ─── Base ────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
   font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -62,6 +97,336 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─── Typographic scale ────────────────────────────
+   One fluid, optically-corrected scale replaces the per-component
+   `text-4xl md:text-5xl` strings that previously made ten different
+   sections shout at exactly the same volume.
+
+   Tracking is set per tier rather than as one blanket value: large
+   Playfair display sizes need negative tracking to look deliberate, and
+   the same value applied to a 20px card title makes it look cramped.
+   Sizes are clamp()-based so type keeps adapting between breakpoints
+   instead of jumping once at 768px and then standing still. */
+.type-display {          /* Hero name — the single loudest element */
+  font-size: clamp(2.75rem, 6.4vw, 5.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+.type-section {          /* Section titles (h2) */
+  font-size: clamp(2rem, 3.4vw, 3.125rem);
+  line-height: 1.1;
+  letter-spacing: -0.022em;
+  font-weight: 700;
+}
+.type-subsection {       /* Sub-headers inside a section */
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.16;
+  letter-spacing: -0.018em;
+  font-weight: 700;
+}
+.type-card-title {       /* Card / item headings (h3) */
+  font-size: clamp(1.1875rem, 1.5vw, 1.4375rem);
+  line-height: 1.28;
+  letter-spacing: -0.012em;
+  font-weight: 700;
+}
+.type-lead {             /* Intro / standfirst paragraphs */
+  font-size: clamp(1.0625rem, 1.15vw, 1.1875rem);
+  line-height: 1.6;
+  letter-spacing: -0.003em;
+}
+.type-body {             /* Default reading copy */
+  font-size: 1rem;
+  line-height: 1.68;
+}
+.type-meta {             /* Dates, affiliations, captions */
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+
+/* Rhythm utilities. Applied as the trailing gap of the *first* element in a
+   pair, which is how the relationship actually reads in markup:
+   `<h2 class="type-section after-title">` = "a heading, followed by its
+   standfirst". `.section-header` already owns the largest step (header block
+   → section content), so it is not repeated here. */
+.after-label   { margin-bottom: var(--space-label); }
+.after-title   { margin-bottom: var(--space-title); }
+.after-related { margin-bottom: var(--space-related); }
+.after-block   { margin-bottom: var(--space-block); }
+
+/* Same steps as a leading gap, for elements that follow rather than precede
+   (decorative rules under a centred heading, mainly). */
+.before-title  { margin-top: var(--space-title); }
+
+/* Measure control. Unbounded paragraphs on a 1280px container run well
+   past 120 characters; comfortable reading is 60–75. These cap the line
+   box without touching the surrounding layout grid. */
+/* The biography in the CMS carries a `strong` mark on every paragraph, so
+   the whole bio rendered semibold — emphasis applied to 100% of a text
+   conveys no emphasis and measurably slows long-form reading. `:only-child`
+   scopes this to a <strong> that IS the entire paragraph; a <strong> used
+   inline for genuine emphasis has siblings, so it keeps its bold weight.
+   The durable fix is to clear those marks in Sanity Studio — this makes the
+   page read correctly either way. */
+.prose p > strong:only-child {
+  font-weight: 400;
+}
+
+.measure      { max-width: 68ch; }
+.measure-wide { max-width: 78ch; }
+.measure-tight{ max-width: 56ch; }
+
+/* ─── Lenis smooth scroll ─────────────────────────────
+   Lenis drives scroll itself; native `scroll-behavior: smooth` is
+   deliberately absent from <html> above so the two never fight over the
+   same gesture. Falls back to native smooth scroll automatically when
+   Lenis never initializes (prefers-reduced-motion). */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ─── Desktop section-to-section pagination ──────────
+   Applied only under html.paginated, added by SectionPager.tsx once it
+   mounts and detects a desktop viewport. Progressive enhancement: if that
+   script never runs, none of this applies and every `.scene` section is
+   just a normal, fully scrollable part of the document — never a broken
+   state.
+
+   Content is never clipped: each scene is fixed to exactly one viewport
+   tall with its own internal scrollbar, so sections far longer than a
+   screen (the biography, the timeline, the publications list) simply
+   scroll within their own box before SectionPager releases the gesture to
+   the next section. Only the active scene is visible; others crossfade
+   in/out with a gentle rise, matching every other reveal on the site. */
+html.paginated .scene {
+  height: 100svh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 162, 39, 0.35) transparent;
+  opacity: 0;
+  /* `safe center` degrades to flex-start the instant content is taller than
+     the box, so nothing is ever pushed above the viewport and clipped —
+     only short sections (Metrics, Awards) actually get centered. */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: safe center;
+  transform: translateY(24px) scale(0.985);
+  transition:
+    opacity var(--t-scene) var(--ease-premium),
+    transform var(--t-scene) var(--ease-premium),
+    visibility 0s linear var(--t-scene);
+  visibility: hidden;
+  will-change: opacity, transform;
+}
+/* ---- Paginated density ----
+   `.section-padding` is py-20/28 (112px top AND bottom at md+). That exists
+   to separate sections in a normally-scrolled document; in paginated mode
+   each scene already owns a full viewport and centres its own content, so
+   that 224px is pure overhead eating the height the content needs. Several
+   sections — Contact worst — overflowed their panel by only 24px at 900px
+   and 124px at 800px, which cost a whole extra scroll gesture to clear a
+   few dozen pixels. Trimming here recovers ~104px and lets them settle in
+   one gesture. Everything below is scoped to html.paginated, so mobile,
+   reduced-motion and no-JS keep the original generous spacing untouched. */
+html.paginated .scene.section-padding {
+  padding-top: clamp(4.5rem, 9vh, 7rem);
+  padding-bottom: clamp(3rem, 6vh, 4.5rem);
+}
+
+/* Contact carries the densest payload on the site (heading + standfirst +
+   two contact methods + a five-field form), so it needs a little more than
+   the shared trim above to clear a short laptop viewport. Input padding is
+   deliberately NOT reduced — the fields stay at their full ~48px hit area. */
+html.paginated #contact .glass-card-dark {
+  padding: 2rem;
+}
+html.paginated #contact h2 + p {
+  margin-bottom: 1.75rem;
+}
+
+/* Short laptop viewports (a 1366x768 screen leaves ~660-700px once browser
+   chrome is subtracted) need a little more from Contact — it was still 68px
+   over at 720px, which is again a whole extra gesture for a sliver. The
+   textarea keeps a comfortable 3-line height and inputs keep their full hit
+   area; only the surrounding gaps give way. */
+@media (max-height: 780px) {
+  html.paginated #contact .glass-card-dark { padding: 1.5rem; }
+  html.paginated #contact form { margin-top: 0; }
+  html.paginated #contact form > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
+  html.paginated #contact form .grid { gap: 1rem; }
+  html.paginated #contact textarea { height: 5.25rem; min-height: 0; }
+  html.paginated #contact h3 { margin-bottom: 1.25rem; }
+  html.paginated #contact .space-y-8 > :not([hidden]) ~ :not([hidden]) { margin-top: 1.25rem; }
+}
+
+html.paginated .scene::-webkit-scrollbar { width: 5px; }
+html.paginated .scene::-webkit-scrollbar-track { background: transparent; }
+html.paginated .scene::-webkit-scrollbar-thumb {
+  background: rgba(201, 162, 39, 0.35);
+  border-radius: 3px;
+}
+html.paginated .scene::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 162, 39, 0.7);
+}
+
+html.paginated .scene.scene-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+  transition:
+    opacity var(--t-scene) var(--ease-premium),
+    transform var(--t-scene) var(--ease-premium),
+    visibility 0s linear 0s;
+}
+
+/* Direction-aware resting transform, mirroring the travel direction so the
+   crossfade reads as one continuous motion instead of two independent
+   fades. `[data-dir]` is set on <html> by SectionPager.tsx right before
+   each transition. */
+html.paginated[data-dir="up"] .scene:not(.scene-active):not(.scene-leaving) {
+  transform: translateY(-24px) scale(0.985);
+}
+html.paginated[data-dir="down"] .scene.scene-leaving {
+  transform: translateY(-24px) scale(0.985);
+}
+html.paginated[data-dir="up"] .scene.scene-leaving {
+  transform: translateY(24px) scale(0.985);
+}
+
+
+/* ─── Section dot navigation (desktop) ───────────────
+   Fixed vertical dot strip on the right edge. In paginated mode this IS the
+   navigation — the top header is hidden below — so it carries the section
+   name as a hover tooltip rather than relying on the dot alone. Geometry
+   (10px dots, 1.5px ring, 0.75rem gap, 1.5rem inset, 1.3x hover / 1.2x
+   active scale, tooltip at 0.72rem/0.08em) matches the reference project.
+
+   Colour is the one deliberate departure: the rail is fixed while sections
+   alternate white and navy behind it, so a single flat colour would vanish
+   on one of them. The idle ring is a mid grey that holds on both, and the
+   active dot uses --gold-ink on light (4.9:1) and the brighter --gold on
+   dark (7.5:1) — the brand gold alone is 2.4:1 on white, under the 3:1
+   WCAG 1.4.11 floor for a non-text indicator. */
+.section-dots {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-premium);
+}
+html.paginated .section-dots {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.section-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(120, 128, 140, 0.75);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition:
+    background 0.3s var(--ease-premium),
+    border-color 0.3s var(--ease-premium),
+    transform 0.3s var(--ease-spring),
+    box-shadow 0.3s var(--ease-premium);
+}
+.section-dot:hover {
+  border-color: var(--gold-ink);
+  transform: scale(1.3);
+}
+.section-dot.active {
+  background: var(--gold-ink);
+  border-color: var(--gold-ink);
+  transform: scale(1.2);
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+.dark .section-dot:hover { border-color: var(--gold); }
+.dark .section-dot.active {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+/* Tooltip label. `attr(aria-label)` reuses the accessible name as the visible
+   one, so the two can never drift apart. */
+.section-dot::before {
+  content: attr(aria-label);
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--font-inter);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0F2D52;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0.3rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid rgba(15, 45, 82, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s var(--ease-premium);
+}
+.dark .section-dot::before {
+  color: #f0f0f0;
+  background: rgba(7, 21, 37, 0.85);
+  border-color: rgba(201, 162, 39, 0.2);
+}
+.section-dot:hover::before,
+.section-dot:focus-visible::before {
+  opacity: 1;
+}
+
+/* Below the pager's own breakpoint the rail is gone and the top header is
+   the navigation again, so the two are never both present. */
+@media (max-width: 768px) {
+  .section-dots { display: none; }
+}
+
+/* The dot rail replaces the top navbar on desktop. `html.paginated` is only
+   ever set above 768px (SectionPager checks the viewport before adding it),
+   so this cannot strand mobile without navigation. Zeroing the layout's
+   pt-20 removes the header clearance that would otherwise leave 80px of dead
+   space above the first scene. */
+html.paginated header { display: none; }
+
+/* The toggle normally lives in the header; with the header hidden it needs
+   its own anchor so dark mode stays reachable on desktop. Sits clear of the
+   dot rail's vertical centre. */
+.paginated-theme-toggle {
+  display: none;
+}
+html.paginated .paginated-theme-toggle {
+  display: block;
+  position: fixed;
+  top: 1.5rem;
+  right: 1.25rem;
+  z-index: 900;
+}
+html.paginated .pt-20 { padding-top: 0; }
 
 /* ─── Scrollbar ───────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
@@ -121,12 +486,79 @@ body {
 }
 
 /* ─── Section label style ─────────────────────────── */
+/* Eyebrow label above section titles. Bumped 12px -> 13px and tracking
+   eased 0.25em -> 0.18em: at 12px with very wide tracking the uppercase
+   letterforms start to disassociate into individual glyphs, which reads
+   as decoration rather than as a label. Colour uses the AA-compliant
+   --gold-ink on light surfaces and the brighter brand gold on dark. */
 .section-label {
-  @apply text-xs font-bold tracking-[0.25em] text-executive-gold uppercase;
+  @apply text-[0.8125rem] font-bold uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold-ink);
+  line-height: 1.4;
+}
+.dark .section-label,
+[data-theme="dark"] .section-label {
+  color: var(--gold);
+}
+/* Sections that sit on a permanently dark panel in BOTH themes (hero,
+   metrics, awards, contact) opt in explicitly — they are never on white,
+   so they always want the brighter gold. */
+.section-label-on-dark {
+  color: var(--gold) !important;
+}
+
+/* Gold used as *text* on a surface that is light in light-mode. Resolves to
+   the AA-compliant --gold-ink (4.92:1) there and to the brighter brand gold
+   on dark surfaces (7.49:1). Use this for any gold wording; keep
+   `text-executive-gold` for decorative icons, rules and fills, which are not
+   held to the 4.5:1 text threshold. */
+.text-gold-ink { color: var(--gold-ink); }
+.dark .text-gold-ink,
+[data-theme="dark"] .text-gold-ink { color: var(--gold); }
+.group:hover .group-hover\:text-gold-ink { color: var(--gold-ink); }
+.dark .group:hover .group-hover\:text-gold-ink,
+[data-theme="dark"] .group:hover .group-hover\:text-gold-ink { color: var(--gold); }
+
+/* Shared section-header block. Previously seven sections centred their
+   header and five left-aligned it with no rule behind which was which;
+   this makes the choice explicit and consistent. */
+.section-header {
+  margin-bottom: clamp(3rem, 5vw, 4.5rem);
+}
+.section-header--center {
+  text-align: center;
+}
+.section-header--center .measure,
+.section-header--center .measure-wide,
+.section-header--center .measure-tight {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Selection color */
 ::selection {
   background: rgba(201,162,39,0.25);
   color: #0F2D52;
+}
+
+/* ─── Focus visibility ─────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ─── Global interactive smoothing ─────────────────── */
+a, button {
+  transition-timing-function: var(--ease-premium);
+}
+
+/* Executive/glass cards get a consistent premium lift-on-hover, matching
+   the motion language used across every animated section. */
+.executive-card, .glass-card, .glass-card-dark {
+  transition: transform var(--t-base) var(--ease-premium),
+              box-shadow var(--t-base) var(--ease-premium),
+              border-color var(--t-base) var(--ease-premium),
+              background var(--t-base) var(--ease-premium);
 }

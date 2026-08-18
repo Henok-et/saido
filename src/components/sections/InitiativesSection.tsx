@@ -15,8 +15,8 @@ export function InitiativesSection({ data }: { data?: any[] }) {
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-2xl">
-            <span className="section-label mb-3 block">Global Impact</span>
-            <h2 className="font-playfair font-bold text-4xl md:text-5xl text-gray-900 dark:text-white mb-4">
+            <span className="section-label after-label block">Global Impact</span>
+            <h2 className="font-playfair type-section text-gray-900 dark:text-white after-title">
               Strategic Initiatives
             </h2>
              <div className="h-[2px] w-16 bg-executive-gold rounded-full" />
@@ -40,10 +40,10 @@ export function InitiativesSection({ data }: { data?: any[] }) {
                 <div className="absolute inset-0 bg-executive-gold/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
               <div className="p-6 sm:p-8 sm:w-3/5 flex flex-col bg-white dark:bg-executive-darkSurface">
-                <span className="text-xs font-bold uppercase tracking-wider text-executive-gold mb-3 block">
+                <span className="text-xs font-bold uppercase tracking-wider text-gold-ink mb-3 block">
                   {initiative.category}
                 </span>
-                <h3 className="text-2xl font-playfair font-bold text-gray-900 dark:text-white mb-3 leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
+                <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-3 leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
                   {initiative.title}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 flex-1 leading-relaxed">
@@ -51,7 +51,7 @@ export function InitiativesSection({ data }: { data?: any[] }) {
                 </p>
                 <Link 
                   href={`/initiatives/${initiative.slug}`}
-                  className="inline-flex items-center text-sm font-bold text-gray-900 dark:text-white group-hover:text-executive-gold transition-colors mt-auto w-fit"
+                  className="inline-flex items-center text-sm font-bold text-gray-900 dark:text-white group-hover:text-gold-ink transition-colors mt-auto w-fit"
                 >
                   Read Case Study <ArrowUpRight className="ml-1 w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Link>

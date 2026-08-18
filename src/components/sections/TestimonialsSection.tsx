@@ -29,12 +29,12 @@ export function TestimonialsSection({ data }: { data?: TestimonialItem[] }) {
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="section-label mb-3 block">Endorsements</span>
-          <h2 className="font-playfair font-bold text-4xl md:text-5xl text-gray-900 dark:text-white">
+        <div className="section-header section-header--center">
+          <span className="section-label after-label block">Endorsements</span>
+          <h2 className="font-playfair type-section text-gray-900 dark:text-white">
             What Leaders Say
           </h2>
-          <div className="mt-4 h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
+          <div className="before-title h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -62,14 +62,14 @@ export function TestimonialsSection({ data }: { data?: TestimonialItem[] }) {
                   {test.imageUrl ? (
                     <Image src={test.imageUrl} alt={test.author} fill className="object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-executive-gold font-bold font-playfair text-lg">
+                    <div className="w-full h-full flex items-center justify-center text-gold-ink font-bold font-playfair text-lg">
                       {test.author.charAt(0)}
                     </div>
                   )}
                 </div>
                 <div>
                   <cite className="not-italic font-bold text-gray-900 dark:text-white block">{test.author}</cite>
-                  <span className="text-sm text-executive-gold">
+                  <span className="text-sm text-gold-ink">
                     {test.title}{test.title && test.organization ? ", " : ""}{test.organization}
                   </span>
                 </div>

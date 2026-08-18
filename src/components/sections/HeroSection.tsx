@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowDown, Globe, BookOpen, Users } from "lucide-react";
+import { PREMIUM_EASE } from "@/components/ui/AnimatedSection";
 
 interface HeroData {
   title?: string;
@@ -33,7 +34,7 @@ export function HeroSection({ data }: { data?: HeroData }) {
     <section
       ref={ref}
       id="hero"
-      className="relative h-screen min-h-[700px] max-h-[1100px] flex items-center overflow-hidden bg-executive-darkBg"
+      className="scene relative h-screen min-h-[700px] max-h-[1100px] flex items-center overflow-hidden bg-executive-darkBg"
     >
       {/* ── Parallax Background Image ─────────────────── */}
       {imageUrl && (
@@ -71,42 +72,50 @@ export function HeroSection({ data }: { data?: HeroData }) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
+            transition={{ delay: 0.2, duration: 0.7, ease: PREMIUM_EASE }}
             className="flex items-center gap-3 mb-6"
           >
-            <span className="section-label">{subtitle}</span>
+            <span className="section-label section-label-on-dark">{subtitle}</span>
           </motion.div>
 
-          {/* Name */}
-          <div className="overflow-hidden mb-2">
-            <motion.h1
-              initial={{ y: 80, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.35, duration: 0.9, ease: [0.215, 0.61, 0.355, 1] }}
-              className="font-playfair font-bold text-white leading-[1.05] text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]"
-            >
-              {firstPart}
-            </motion.h1>
-          </div>
-          {lastPart && (
-            <div className="overflow-hidden mb-8">
-              <motion.h1
+          {/* Name — one <h1> for the page. The two lines are spans inside it
+              rather than two sibling <h1> elements (which is what this was):
+              the name is the page's single top-level heading, and duplicate
+              h1s give assistive tech and search engines a page with two
+              competing titles. The masked slide-up reveal is unchanged — the
+              overflow-hidden wrapper and per-line stagger now live on the
+              spans. */}
+          <h1 className="font-playfair type-display mb-8">
+            <span className="block overflow-hidden pb-[0.08em]">
+              <motion.span
                 initial={{ y: 80, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.45, duration: 0.9, ease: [0.215, 0.61, 0.355, 1] }}
-                className="font-playfair font-bold leading-[1.05] text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]"
-                style={{ color: "#C9A227" }}
+                transition={{ delay: 0.35, duration: 1.0, ease: PREMIUM_EASE }}
+                className="block text-white"
               >
-                {lastPart}
-              </motion.h1>
-            </div>
-          )}
+                {firstPart}
+              </motion.span>
+            </span>
+            {lastPart && (
+              <span className="block overflow-hidden pb-[0.08em]">
+                <motion.span
+                  initial={{ y: 80, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.45, duration: 1.0, ease: PREMIUM_EASE }}
+                  className="block"
+                  style={{ color: "#C9A227" }}
+                >
+                  {lastPart}
+                </motion.span>
+              </span>
+            )}
+          </h1>
 
           {/* Animated gold rule */}
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ delay: 0.75, duration: 0.8, ease: "easeInOut" }}
+            transition={{ delay: 0.75, duration: 0.9, ease: PREMIUM_EASE }}
             className="h-[2px] w-28 bg-executive-gold origin-left mb-8"
           />
 
@@ -114,8 +123,8 @@ export function HeroSection({ data }: { data?: HeroData }) {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.85, duration: 0.7 }}
-            className="text-gray-300 text-lg leading-relaxed max-w-lg mb-10"
+            transition={{ delay: 0.85, duration: 0.7, ease: PREMIUM_EASE }}
+            className="text-gray-300 type-lead measure-tight mb-10"
           >
             {description}
           </motion.p>
@@ -124,18 +133,18 @@ export function HeroSection({ data }: { data?: HeroData }) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.7 }}
+            transition={{ delay: 1.0, duration: 0.7, ease: PREMIUM_EASE }}
             className="flex flex-wrap gap-4"
           >
             <a
               href="#profile"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-executive-gold text-executive-darkBg font-bold text-sm rounded-lg hover:bg-[#dbb84a] transition-all duration-300 hover:shadow-[0_0_30px_rgba(201,162,39,0.4)] hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-executive-gold text-executive-darkBg font-bold text-sm rounded-lg hover:bg-[#dbb84a] transition-all duration-300 ease-premium hover:shadow-[0_0_30px_rgba(201,162,39,0.4)] hover:-translate-y-0.5"
             >
               View Full Profile
             </a>
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/20 text-white font-semibold text-sm rounded-lg hover:border-executive-gold hover:text-executive-gold transition-all duration-300 hover:-translate-y-0.5 backdrop-blur-sm"
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/20 text-white font-semibold text-sm rounded-lg hover:border-executive-gold hover:text-executive-gold transition-all duration-300 ease-premium hover:-translate-y-0.5 backdrop-blur-sm"
             >
               Get in Touch
             </a>

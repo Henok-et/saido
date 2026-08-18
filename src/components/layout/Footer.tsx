@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Linkedin, Twitter, Mail, Facebook, BookOpen, ArrowUpRight } from "lucide-react";
+import { Facebook, BookOpen } from "lucide-react";
 
 const NAV = [
   { name: "Profile",      href: "#profile"      },
@@ -11,16 +10,23 @@ const NAV = [
   { name: "Contact",      href: "#contact"      },
 ];
 
+// Only profiles that actually resolve to Prof. Madougou belong here. The
+// Twitter and LinkedIn entries pointed at bare domains (https://twitter.com,
+// https://linkedin.com), which drop a visitor on those sites' own homepages —
+// worse than offering no link at all. Re-add either one with its real profile
+// URL when there is one.
 const SOCIALS = [
   { icon: Facebook, href: "https://web.facebook.com/saidou.madougou.3",      label: "Facebook"    },
   { icon: BookOpen, href: "https://www.researchgate.net/profile/Saidou-Madougou", label: "ResearchGate"},
-  { icon: Twitter,  href: "https://twitter.com",                              label: "Twitter"     },
-  { icon: Linkedin, href: "https://linkedin.com",                             label: "LinkedIn"    },
 ];
 
+// `scene` + id below make the footer the final paginated panel on desktop.
+// Without it the pager stops at #contact and the footer sits below the last
+// scene permanently out of reach, since goTo() clamps to the last .scene
+// index. Outside paginated mode the class is inert.
 export function Footer() {
   return (
-    <footer className="relative bg-executive-darkBg border-t border-executive-gold/20 overflow-hidden">
+    <footer id="footer" className="scene relative bg-executive-darkBg border-t border-executive-gold/20 overflow-hidden">
       {/* Top glow */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-executive-gold/50 to-transparent" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full bg-executive-gold/4 blur-[80px] pointer-events-none" />
@@ -56,13 +62,6 @@ export function Footer() {
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
-              <a
-                href="mailto:office@amarasaido.com"
-                aria-label="Email"
-                className="w-9 h-9 rounded-lg bg-white/5 border border-white/8 flex items-center justify-center text-gray-400 hover:text-executive-gold hover:border-executive-gold/40 hover:bg-executive-gold/10 transition-all duration-200"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
             </div>
           </div>
 
@@ -89,12 +88,6 @@ export function Footer() {
             <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-5">Executive Office</h4>
             <div className="space-y-3 text-sm text-gray-400">
               <div>
-                <div className="text-white font-semibold text-xs uppercase tracking-wider mb-1">Email</div>
-                <a href="mailto:office@amarasaido.com" className="hover:text-executive-gold transition-colors">
-                  office@amarasaido.com
-                </a>
-              </div>
-              <div>
                 <div className="text-white font-semibold text-xs uppercase tracking-wider mb-1">Organisation</div>
                 <div>African Union Commission<br />Addis Ababa, Ethiopia</div>
               </div>
@@ -110,7 +103,7 @@ export function Footer() {
         <div className="border-t border-white/8 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-gray-500">
           <p>© {new Date().getFullYear()} Prof. Saidou Madougou. All rights reserved.</p>
           <p>
-            Website by{" "}
+            Designed &amp; Developed by{" "}
             <a
               href="https://wa.me/251967670690"
               target="_blank"

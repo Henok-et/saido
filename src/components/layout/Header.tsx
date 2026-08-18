@@ -5,6 +5,7 @@ import { ThemeToggle } from "../ui/ThemeToggle";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PREMIUM_EASE } from "../ui/AnimatedSection";
 
 const NAV_LINKS = [
   { name: "Profile",      href: "#profile"      },
@@ -54,8 +55,8 @@ export function Header() {
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: isVisible ? 0 : -100, opacity: 1 }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      transition={{ duration: 0.45, ease: PREMIUM_EASE }}
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ease-premium ${
         scrolled
           ? "bg-white/95 dark:bg-executive-darkBg/95 backdrop-blur-xl border-b border-gray-200 dark:border-executive-gold/10 shadow-sm dark:shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
           : "bg-transparent border-b border-transparent"
@@ -135,7 +136,7 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.35, ease: PREMIUM_EASE }}
             className="lg:hidden overflow-hidden bg-white/98 dark:bg-executive-darkBg/98 backdrop-blur-xl border-t border-gray-200 dark:border-executive-gold/10"
           >
             <div className="px-4 py-4 space-y-1">

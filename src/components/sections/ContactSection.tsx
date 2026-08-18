@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatedSection } from "../ui/AnimatedSection";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Phone, MapPin } from "lucide-react";
 
 export function ContactSection({ data }: { data?: any }) {
   const [formData, setFormData] = useState({
@@ -109,8 +109,8 @@ export function ContactSection({ data }: { data?: any }) {
           
           {/* Contact Info */}
           <div className="lg:col-span-5">
-            <span className="section-label mb-3 block">Get in Touch</span>
-            <h2 className="font-playfair font-bold text-4xl md:text-5xl text-white mb-6 leading-tight">
+            <span className="section-label section-label-on-dark after-label block">Get in Touch</span>
+            <h2 className="font-playfair type-section text-white after-title">
               {data?.title || <><span className="text-gradient-gold">Get in Touch</span></>}
             </h2>
             <p className="text-gray-400 mb-12 max-w-md leading-relaxed text-lg">
@@ -118,16 +118,6 @@ export function ContactSection({ data }: { data?: any }) {
             </p>
 
             <div className="space-y-8">
-              <div className="flex items-start group">
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mr-5 group-hover:bg-executive-gold/10 group-hover:border-executive-gold/30 transition-colors">
-                    <Mail className="w-5 h-5 text-executive-gold" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white mb-1 uppercase tracking-wider text-xs">Email</h4>
-                  <p className="text-gray-300 font-medium">{data?.email || "office@amarasaido.com"}</p>
-                </div>
-              </div>
-              
               <div className="flex items-start group">
                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mr-5 group-hover:bg-executive-gold/10 group-hover:border-executive-gold/30 transition-colors">
                     <Phone className="w-5 h-5 text-executive-gold" />
@@ -156,7 +146,7 @@ export function ContactSection({ data }: { data?: any }) {
                 {/* Subtle top border glow */}
                 <div className="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-executive-gold/40 to-transparent" />
 
-                <h3 className="text-2xl font-playfair font-bold mb-8 text-white">Send a Message</h3>
+                <h3 className="font-playfair type-card-title mb-8 text-white">Send a Message</h3>
                 
                 {status.type && (
                 <div className={`p-4 mb-8 rounded-xl text-sm border font-medium ${

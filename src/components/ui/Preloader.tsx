@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PREMIUM_EASE } from "./AnimatedSection";
 
 export function Preloader() {
   const [isVisible, setIsVisible] = useState(true);
@@ -26,24 +27,24 @@ export function Preloader() {
       {isVisible && (
         <motion.div
           initial={{ y: 0 }}
-          exit={{ 
+          exit={{
             y: "-100%",
-            transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
+            transition: { duration: 0.9, ease: PREMIUM_EASE }
           }}
           className="fixed inset-0 z-[9999] bg-executive-blue flex flex-col items-center justify-center"
         >
           <div className="overflow-hidden px-4 text-center">
             <motion.h1
               initial={{ y: 80, opacity: 0 }}
-              animate={{ 
-                y: 0, 
+              animate={{
+                y: 0,
                 opacity: 1,
-                transition: { duration: 0.8, delay: 0.2, ease: [0.215, 0.61, 0.355, 1] }
+                transition: { duration: 0.9, delay: 0.2, ease: PREMIUM_EASE }
               }}
-              exit={{ 
-                y: -60, 
+              exit={{
+                y: -60,
                 opacity: 0,
-                transition: { duration: 0.5, ease: "easeIn" }
+                transition: { duration: 0.5, ease: PREMIUM_EASE }
               }}
               className="font-playfair text-3xl sm:text-4xl md:text-6xl font-bold text-executive-gold tracking-wide"
             >
@@ -51,10 +52,10 @@ export function Preloader() {
             </motion.h1>
             <motion.div
               initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ 
-                scaleX: 1, 
+              animate={{
+                scaleX: 1,
                 opacity: 1,
-                transition: { duration: 1, delay: 0.5, ease: "easeInOut" }
+                transition: { duration: 1, delay: 0.5, ease: PREMIUM_EASE }
               }}
               exit={{ 
                 opacity: 0,

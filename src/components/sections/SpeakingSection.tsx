@@ -11,19 +11,26 @@ export function SpeakingSection({ data }: { data?: any[] }) {
   return (
     <AnimatedSection id="speaking" className="section-padding bg-white dark:bg-executive-darkBg relative overflow-hidden border-t border-gray-100 dark:border-gray-800">
       
-      {/* Background Icon Watermark */}
-      <div className="absolute right-0 bottom-0 opacity-5 dark:opacity-[0.02] transform translate-x-1/4 translate-y-1/4 pointer-events-none">
-        <Mic className="w-[500px] h-[500px] text-executive-blue dark:text-white" />
+      {/* Background Icon Watermark. The inner element bleeds off the corner by
+          design; the inset-0 wrapper clips it so that bleed cannot extend the
+          section's scrollable area. Without the wrapper the translated 500px
+          icon added exactly 125px of phantom scroll in paginated mode (which
+          replaces the section's overflow-hidden with overflow-y:auto), costing
+          a whole extra scroll gesture to reveal nothing. */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute right-0 bottom-0 opacity-5 dark:opacity-[0.02] transform translate-x-1/4 translate-y-1/4">
+          <Mic className="w-[500px] h-[500px] text-executive-blue dark:text-white" />
+        </div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center mb-16">
-          <span className="section-label mb-3 block">Public Appearances</span>
-          <h2 className="font-playfair font-bold text-4xl md:text-5xl text-gray-900 dark:text-white mb-4">
+        <div className="section-header section-header--center">
+          <span className="section-label after-label block">Public Appearances</span>
+          <h2 className="font-playfair type-section text-gray-900 dark:text-white after-title">
             Speaking Engagements
           </h2>
-          <div className="mt-4 h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
+          <div className="before-title h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -36,7 +43,7 @@ export function SpeakingSection({ data }: { data?: any[] }) {
                 {evt.role || "Speaker"}
               </span>
               
-              <h3 className="text-2xl font-playfair font-bold text-gray-900 dark:text-white mb-3 leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
+              <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-3 leading-tight group-hover:text-executive-blue dark:group-hover:text-gold-ink transition-colors">
                 {evt.title}
               </h3>
               
@@ -56,7 +63,7 @@ export function SpeakingSection({ data }: { data?: any[] }) {
               </div>
 
               <div className="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800">
-                 <a href={evt.link || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-bold text-gray-900 dark:text-white group-hover:text-executive-gold transition-colors">
+                 <a href={evt.link || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-bold text-gray-900 dark:text-white group-hover:text-gold-ink transition-colors">
                   View Details <ExternalLink className="ml-1.5 w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                 </a>
               </div>

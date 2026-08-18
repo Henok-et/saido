@@ -16,10 +16,19 @@ interface ExperienceItem {
 export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
   const hasData = data && data.length > 0;
 
+  const formatDate = (value?: string) => {
+    if (!value) return "";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value; // "2018", "Spring 2020", etc.
+    return parsed.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+  };
+
   const formatPeriod = (exp: ExperienceItem) => {
-    if (exp.current) return exp.startDate ? `${exp.startDate} – Present` : "Present";
-    if (exp.startDate && exp.endDate) return `${exp.startDate} – ${exp.endDate}`;
-    return "Previous";
+    const start = formatDate(exp.startDate);
+    if (exp.current) return start ? `${start} – Present` : "Present";
+    const end = formatDate(exp.endDate);
+    if (start && end) return `${start} – ${end}`;
+    return start || "Previous";
   };
 
   const renderDescription = (desc: any) => {
@@ -42,12 +51,12 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-20">
-          <span className="section-label mb-3 block">Leadership Journey</span>
-          <h2 className="font-playfair font-bold text-4xl md:text-5xl text-gray-900 dark:text-white">
+        <div className="section-header section-header--center">
+          <span className="section-label after-label block">Leadership Journey</span>
+          <h2 className="font-playfair type-section text-gray-900 dark:text-white">
             Professional Experience
           </h2>
-          <div className="mt-4 h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
+          <div className="before-title h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
         </div>
 
         {hasData ? (
@@ -67,7 +76,7 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
                       {/* Period badge */}
                       <div className="inline-flex items-center gap-2 mb-4">
                         <div className={`w-2 h-2 rounded-full ${exp.current ? "bg-executive-gold animate-pulse-gold" : "bg-gray-400"}`} />
-                        <span className="text-xs font-bold tracking-wider text-executive-gold uppercase">
+                        <span className="text-xs font-bold tracking-wider text-gold-ink uppercase">
                           {formatPeriod(exp)}
                         </span>
                         {exp.current && (
@@ -75,7 +84,7 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
                         )}
                       </div>
 
-                      <h3 className="font-playfair font-bold text-lg md:text-xl text-gray-900 dark:text-white mb-1 leading-snug group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
+                      <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-1 group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
                         {exp.role}
                       </h3>
                       <div className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-4">{exp.organization}</div>

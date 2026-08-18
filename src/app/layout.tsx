@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import { SectionPager } from "@/components/providers/SectionPager";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/ui/Preloader";
+import { SectionDots } from "@/components/ui/SectionDots";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -30,8 +34,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning className={`${playfair.variable} ${inter.variable} antialiased font-inter bg-background text-foreground`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <SmoothScrollProvider />
+          <SectionPager />
           <Preloader />
           <Header />
+          <SectionDots />
+          <div className="paginated-theme-toggle">
+            <ThemeToggle />
+          </div>
           <div className="pt-20">
             {children}
           </div>

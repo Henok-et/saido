@@ -18,8 +18,8 @@ export function BlogSection({ data }: { data?: any[] }) {
         
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-2xl">
-            <span className="section-label mb-3 block">Insights</span>
-            <h2 className="font-playfair font-bold text-4xl md:text-5xl text-gray-900 dark:text-white mb-4">
+            <span className="section-label after-label block">Insights</span>
+            <h2 className="font-playfair type-section text-gray-900 dark:text-white after-title">
               Latest Articles
             </h2>
             <div className="h-[2px] w-16 bg-executive-gold rounded-full" />
@@ -29,11 +29,11 @@ export function BlogSection({ data }: { data?: any[] }) {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {posts.map((post: any) => (
             <article key={post._id} className="executive-card p-8 flex flex-col group hover:border-executive-gold/40 hover:shadow-xl transition-all duration-300 bg-white dark:bg-executive-darkBg">
               <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-bold uppercase tracking-wider text-executive-gold bg-executive-gold/10 px-3 py-1 rounded-full">
+                <span className="text-xs font-bold uppercase tracking-wider text-gold-ink bg-executive-gold/10 px-3 py-1 rounded-full">
                   {post.category}
                 </span>
                 <span className="text-xs font-medium text-gray-400">
@@ -41,7 +41,7 @@ export function BlogSection({ data }: { data?: any[] }) {
                 </span>
               </div>
               
-              <h3 className="text-2xl font-playfair font-bold text-gray-900 dark:text-white mb-4 leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors line-clamp-3">
+              <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-4 leading-tight group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors line-clamp-3">
                 <Link href={`/blog/${post.slug}`} className="focus:outline-none">
                    <span className="absolute inset-0" aria-hidden="true" />
                   {post.title}
@@ -56,7 +56,7 @@ export function BlogSection({ data }: { data?: any[] }) {
                 <span className="text-sm font-bold text-gray-900 dark:text-gray-300">
                   {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ""}
                 </span>
-                <span className="inline-flex items-center text-sm font-bold text-executive-blue dark:text-white group-hover:text-executive-gold transition-colors">
+                <span className="inline-flex items-center text-sm font-bold text-executive-blue dark:text-white group-hover:text-gold-ink transition-colors">
                   Read Article <ArrowUpRight className="ml-1 w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>

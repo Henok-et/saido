@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { AnimatedSection } from "../ui/AnimatedSection";
-import { CheckCircle2, GraduationCap, FileText, Download, Award } from "lucide-react";
+import { CheckCircle2, GraduationCap, FileText, Download, Award, UserRound } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 
 interface ProfileData {
@@ -36,14 +36,14 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
 
         {/* Section header */}
         <div className="mb-16 max-w-xl">
-          <span className="section-label mb-3 block">Executive Profile</span>
-          <h2 className="font-playfair font-bold text-4xl md:text-5xl text-gray-900 dark:text-white leading-tight">
+          <span className="section-label after-label block">Executive Profile</span>
+          <h2 className="font-playfair type-section text-gray-900 dark:text-white">
             {data?.name ? `About ${data.name}` : "Executive Profile"}
           </h2>
           {data?.title && (
-            <p className="mt-3 text-executive-gold font-semibold text-lg">{data.title}</p>
+            <p className="mt-3 text-[color:var(--gold-ink)] dark:text-executive-gold font-semibold type-lead measure-tight">{data.title}</p>
           )}
-          <div className="mt-5 h-[3px] w-20 bg-executive-gold rounded-full" />
+          <div className="before-title h-[3px] w-20 bg-executive-gold rounded-full" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16">
@@ -52,11 +52,11 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
           <div className="lg:col-span-7 space-y-6">
 
             {data?.bio ? (
-              <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 text-lg leading-relaxed space-y-5">
+              <div className="prose dark:prose-invert max-w-none measure text-gray-700 dark:text-gray-300 type-lead space-y-5">
                 <PortableText value={data.bio} />
               </div>
             ) : (
-              <div className="space-y-5 text-gray-700 dark:text-gray-300 text-[1.05rem] leading-[1.85]">
+              <div className="space-y-5 measure text-gray-700 dark:text-gray-300 type-lead">
                 <p className="italic text-gray-400 dark:text-gray-500">
                   Biography not yet available. Add content in Sanity Studio under <strong>Executive Profile → Biography</strong>.
                 </p>
@@ -66,7 +66,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
             {/* Expertise tags */}
             {expertise.length > 0 && (
               <div className="pt-8 border-t border-gray-100 dark:border-gray-800">
-                <h3 className="font-playfair font-bold text-xl text-gray-900 dark:text-white mb-5 flex items-center gap-2">
+                <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-5 flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-executive-gold" />
                   Areas of Expertise
                 </h3>
@@ -124,7 +124,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
               <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 dark:border-gray-700 flex items-center justify-center bg-gray-50 dark:bg-gray-900">
                 <div className="text-center p-6">
                   <div className="w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-800 mx-auto mb-3 flex items-center justify-center">
-                    <span className="text-3xl text-gray-400">👤</span>
+                    <UserRound className="w-9 h-9 text-gray-400" strokeWidth={1.5} />
                   </div>
                   <p className="text-sm text-gray-400 dark:text-gray-500">Profile image not set.<br/>Upload one in Sanity Studio.</p>
                 </div>
@@ -134,7 +134,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
             {/* Education */}
             {education.length > 0 && (
               <div className="executive-card rounded-2xl p-7">
-                <h3 className="font-playfair font-bold text-xl text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                   <GraduationCap className="w-5 h-5 text-executive-gold" />
                   Education
                 </h3>
@@ -155,7 +155,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
             {/* Certifications */}
             {certifications.length > 0 && (
               <div className="executive-card rounded-2xl p-7">
-                <h3 className="font-playfair font-bold text-xl text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                   <Award className="w-5 h-5 text-executive-gold" />
                   Professional Certifications
                 </h3>

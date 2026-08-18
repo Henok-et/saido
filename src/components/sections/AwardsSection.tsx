@@ -29,9 +29,9 @@ export function AwardsSection({ data }: { data?: AwardItem[] }) {
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="section-label mb-3 block">Recognition</span>
-          <h2 className="font-playfair font-bold text-4xl md:text-5xl text-white">
+        <div className="section-header section-header--center">
+          <span className="section-label section-label-on-dark after-label block">Recognition</span>
+          <h2 className="font-playfair type-section text-white">
             Awards & <span className="text-gradient-gold">Honors</span>
           </h2>
           <p className="text-gray-400 mt-4 max-w-lg mx-auto">
@@ -48,12 +48,12 @@ export function AwardsSection({ data }: { data?: AwardItem[] }) {
               {/* Top accent */}
               <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-executive-gold/50 to-transparent" />
 
-              <div className="flex items-start gap-5">
+              <div className="flex items-start gap-6">
                 <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-executive-gold/15 border border-executive-gold/25 flex items-center justify-center group-hover:bg-executive-gold/25 transition-colors">
                   <Trophy className="w-6 h-6 text-executive-gold" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-playfair font-bold text-lg text-white mb-2 leading-tight">
+                  <h3 className="font-playfair type-card-title text-white mb-2">
                     {award.title}
                   </h3>
                   <div className="flex items-center gap-2 mb-3">
