@@ -28,7 +28,7 @@ import { BlogSection } from "@/components/sections/BlogSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 5; // Revalidate every 5 seconds for near-instant updates
 
 export default async function Home() {
   const [

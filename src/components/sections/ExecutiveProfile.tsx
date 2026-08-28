@@ -39,7 +39,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{ duration: 0.7, ease: PREMIUM_EASE }}
           className="mb-16 max-w-xl"
         >
@@ -59,7 +59,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
+            viewport={{ once: false, margin: "-40px" }}
             transition={{ duration: 0.8, ease: PREMIUM_EASE, delay: 0.15 }}
             className="lg:col-span-7 space-y-6"
           >
@@ -79,7 +79,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="pt-8 border-t border-gray-200 dark:border-gray-800"
               >
@@ -93,7 +93,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
                       key={item}
                       initial={{ opacity: 0, scale: 0.95 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: false }}
                       transition={{ duration: 0.4, delay: 0.35 + idx * 0.05 }}
                       className="inline-flex items-center px-3.5 py-1 rounded-sm text-xs font-semibold uppercase tracking-wider text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-700 bg-transparent"
                     >
@@ -109,7 +109,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <a
@@ -129,7 +129,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
+            viewport={{ once: false, margin: "-40px" }}
             transition={{ duration: 0.8, ease: PREMIUM_EASE, delay: 0.25 }}
             className="lg:col-span-5 space-y-8"
           >
@@ -178,7 +178,7 @@ export function ExecutiveProfile({ data }: { data?: ProfileData }) {
                       key={idx}
                       initial={{ opacity: 0, x: -10 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: false }}
                       transition={{ duration: 0.4, delay: 0.3 + idx * 0.1 }}
                       className="border-l-2 border-executive-gold pl-4 py-1"
                     >

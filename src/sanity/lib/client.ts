@@ -8,7 +8,9 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: process.env.NODE_ENV === 'production',
+  // Disable CDN so edits & deletions reflect immediately.
+  // Re-enable with webhook revalidation when deploying to production.
+  useCdn: false,
   token: process.env.SANITY_READ_TOKEN,
   perspective: 'published',
 })

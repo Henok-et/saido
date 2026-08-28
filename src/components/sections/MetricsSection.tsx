@@ -12,7 +12,7 @@ interface MetricItem {
 function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
   const ref  = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const inView = useInView(ref, { once: false, margin: "-50px" });
 
   useEffect(() => {
     if (!inView) return;
@@ -57,7 +57,7 @@ export function MetricsSection({ data }: { data?: MetricItem[] }) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.6 }}
           className="section-header section-header--center"
         >
@@ -75,7 +75,7 @@ export function MetricsSection({ data }: { data?: MetricItem[] }) {
                 key={idx}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
+                viewport={{ once: false, margin: "-40px" }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 className="border-t border-gray-300 dark:border-gray-800 pt-6 pb-2"
               >

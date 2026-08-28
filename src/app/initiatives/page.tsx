@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { initiativesQuery } from "@/sanity/lib/queries";
 
-export const revalidate = 60;
+export const revalidate = 5;
 
 export const metadata: Metadata = {
   title: "Strategic Initiatives | Prof. Saidou Madougou",

@@ -19,7 +19,7 @@ export function PublicationsSection({ data }: { data?: any[] }) {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{ duration: 0.7, ease: PREMIUM_EASE }}
           className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
         >
@@ -41,7 +41,7 @@ export function PublicationsSection({ data }: { data?: any[] }) {
               key={pub._id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
+              viewport={{ once: false, margin: "-40px" }}
               transition={{ duration: 0.6, ease: PREMIUM_EASE, delay: idx * 0.08 }}
               className="border-t border-gray-300 dark:border-gray-800 pt-8 pb-6 flex flex-col md:flex-row md:items-start justify-between gap-8 group"
             >

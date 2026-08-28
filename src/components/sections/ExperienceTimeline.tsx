@@ -69,7 +69,7 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{ duration: 0.7, ease: PREMIUM_EASE }}
           className="section-header section-header--center"
         >
@@ -92,7 +92,7 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
                   key={exp._id}
                   initial={{ opacity: 0, y: 32 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
+                  viewport={{ once: false, margin: "-50px" }}
                   transition={{ duration: 0.65, ease: PREMIUM_EASE, delay: index * 0.1 }}
                   className={`relative mb-12 md:mb-16 flex md:items-start ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
                 >

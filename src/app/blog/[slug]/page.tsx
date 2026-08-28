@@ -6,7 +6,7 @@ import { PortableText } from "@portabletext/react";
 import { client } from "@/sanity/lib/client";
 import { blogPostBySlugQuery } from "@/sanity/lib/queries";
 
-export const revalidate = 60;
+export const revalidate = 5;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

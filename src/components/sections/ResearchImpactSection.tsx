@@ -26,7 +26,7 @@ function ImpactGrid({ items }: { items: any[] }) {
           key={idx}
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{ duration: 0.6, ease: PREMIUM_EASE, delay: idx * 0.08 }}
           className="border-t border-gray-300 dark:border-gray-800 pt-6 pb-2 group"
         >
@@ -59,7 +59,7 @@ export function ResearchImpactSection({ data }: { data?: any }) {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{ duration: 0.7, ease: PREMIUM_EASE }}
           className="section-header section-header--center"
         >

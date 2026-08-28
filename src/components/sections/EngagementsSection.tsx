@@ -40,7 +40,7 @@ export function EngagementsSection({ data }: { data?: EngagementItem[] }) {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{ duration: 0.7, ease: PREMIUM_EASE }}
           className="section-header section-header--center"
         >
@@ -57,7 +57,7 @@ export function EngagementsSection({ data }: { data?: EngagementItem[] }) {
               key={evt._id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
+              viewport={{ once: false, margin: "-40px" }}
               transition={{ duration: 0.6, ease: PREMIUM_EASE, delay: idx * 0.1 }}
               className="border-t border-gray-300 dark:border-gray-800 pt-6 pb-2 flex flex-col group"
             >

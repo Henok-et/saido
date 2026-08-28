@@ -33,7 +33,7 @@ export function RecognitionSection({ data }: { data?: RecognitionItem[] }) {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "-40px" }}
           transition={{ duration: 0.7, ease: PREMIUM_EASE }}
           className="section-header section-header--center"
         >
@@ -53,7 +53,7 @@ export function RecognitionSection({ data }: { data?: RecognitionItem[] }) {
               key={item._id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
+              viewport={{ once: false, margin: "-40px" }}
               transition={{ duration: 0.6, ease: PREMIUM_EASE, delay: idx * 0.1 }}
               className="border-t border-gray-300 dark:border-gray-800 pt-6 pb-2 group"
             >

@@ -3,7 +3,7 @@ import { client } from "@/sanity/lib/client";
 import { publicationsQuery } from "@/sanity/lib/queries";
 import { FileText, Download, ExternalLink } from "lucide-react";
 
-export const revalidate = 60;
+export const revalidate = 5;
 
 export const metadata: Metadata = {
   title: "Publications | Prof. Saidou Madougou",

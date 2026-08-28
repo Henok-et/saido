@@ -114,7 +114,7 @@ export function ContactSection({ data }: { data?: any }) {
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
+            viewport={{ once: false, margin: "-40px" }}
             transition={{ duration: 0.7, ease: PREMIUM_EASE }}
             className="lg:col-span-5"
           >
@@ -153,7 +153,7 @@ export function ContactSection({ data }: { data?: any }) {
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
+            viewport={{ once: false, margin: "-40px" }}
             transition={{ duration: 0.8, ease: PREMIUM_EASE, delay: 0.15 }}
             className="lg:col-span-7"
           >
