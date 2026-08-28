@@ -18,7 +18,6 @@ interface HeroData {
 export function HeroSection({ data }: { data?: HeroData }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   const title = data?.title || "Prof. Saidou Madougou";
@@ -42,152 +41,195 @@ export function HeroSection({ data }: { data?: HeroData }) {
     <section
       ref={ref}
       id="hero"
-      className="scene relative h-screen min-h-[700px] max-h-[1100px] flex items-center overflow-hidden bg-executive-darkBg"
+      className="scene relative min-h-screen flex items-center overflow-hidden bg-executive-darkBg"
     >
-      {/* ── Parallax Background Image ─────────────────── */}
-      {imageUrl && (
-        <motion.div style={{ y }} className="absolute inset-0 w-full h-full z-0 will-change-transform">
-          <Image
-            src={imageUrl}
-            alt={title}
-            fill
-            priority
-            className="object-cover object-center"
-          />
-        </motion.div>
-      )}
-
-      {/* ── Background Vignette & Gradient Overlays ─── */}
+      {/* ── Ambient background gradient (no full-bleed image) ── */}
       <div
-        className="absolute inset-0 z-[1] pointer-events-none"
+        className="absolute inset-0 z-0 pointer-events-none"
         style={{
-          background: imageUrl
-            ? "linear-gradient(100deg, rgba(7,21,37,0.98) 0%, rgba(7,21,37,0.92) 45%, rgba(7,21,37,0.6) 75%, rgba(7,21,37,0.3) 100%)"
-            : "radial-gradient(circle at 80% 20%, rgba(15,45,82,0.6) 0%, #071525 70%)"
+          background: "radial-gradient(ellipse 80% 70% at 75% 40%, rgba(15,45,82,0.45) 0%, transparent 60%), radial-gradient(circle at 10% 80%, rgba(201,162,39,0.06) 0%, transparent 50%), #071525",
         }}
       />
 
       {/* ── Subtle Dot Pattern ────────────────────────── */}
-      <div className="absolute inset-0 z-[2] dot-pattern opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 z-[1] dot-pattern opacity-20 pointer-events-none" />
 
-      {/* ── Main Content Container ────────────────────── */}
+      {/* ── Two-Column Layout ─────────────────────────── */}
       <motion.div
         style={{ opacity }}
-        className="relative z-[5] w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex justify-start my-auto"
+        className="relative z-[5] w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-24 lg:py-0"
       >
-        <div className="w-full max-w-3xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-          {/* Eyebrow Label */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7, ease: PREMIUM_EASE }}
-            className="flex items-center gap-3 mb-5"
-          >
-            <span className="section-label section-label-on-dark tracking-[0.2em] font-semibold text-xs sm:text-sm">
-              {subtitle}
-            </span>
-          </motion.div>
+          {/* ── LEFT: Text Content ─────────────────────── */}
+          <div className="max-w-xl lg:max-w-none order-2 lg:order-1">
 
-          {/* Name — Single Accessible h1 with staggered spans */}
-          <h1 className="font-playfair type-display mb-6 tracking-tight">
-            <span className="block overflow-hidden pb-[0.08em]">
-              <motion.span
-                initial={{ y: 80, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.35, duration: 1.0, ease: PREMIUM_EASE }}
-                className="block text-white font-bold"
-              >
-                {firstPart}
-              </motion.span>
-            </span>
-            {lastPart && (
+            {/* Eyebrow Label */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.7, ease: PREMIUM_EASE }}
+              className="flex items-center gap-3 mb-5"
+            >
+              <span className="section-label section-label-on-dark tracking-[0.2em] font-semibold text-xs sm:text-sm">
+                {subtitle}
+              </span>
+            </motion.div>
+
+            {/* Name — Single Accessible h1 with staggered spans */}
+            <h1 className="font-playfair type-display mb-6 tracking-tight">
               <span className="block overflow-hidden pb-[0.08em]">
                 <motion.span
                   initial={{ y: 80, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.45, duration: 1.0, ease: PREMIUM_EASE }}
-                  className="block text-executive-gold font-bold"
+                  transition={{ delay: 0.35, duration: 1.0, ease: PREMIUM_EASE }}
+                  className="block text-white font-bold"
                 >
-                  {lastPart}
+                  {firstPart}
                 </motion.span>
               </span>
-            )}
-          </h1>
+              {lastPart && (
+                <span className="block overflow-hidden pb-[0.08em]">
+                  <motion.span
+                    initial={{ y: 80, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.45, duration: 1.0, ease: PREMIUM_EASE }}
+                    className="block text-executive-gold font-bold"
+                  >
+                    {lastPart}
+                  </motion.span>
+                </span>
+              )}
+            </h1>
 
-          {/* Elegant Gold Accent Line */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.65, duration: 0.9, ease: PREMIUM_EASE }}
-            className="h-[2px] w-28 bg-executive-gold origin-left mb-6"
-          />
+            {/* Elegant Gold Accent Line */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.65, duration: 0.9, ease: PREMIUM_EASE }}
+              className="h-[2px] w-28 bg-executive-gold origin-left mb-6"
+            />
 
-          {/* Lead Narrative Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75, duration: 0.7, ease: PREMIUM_EASE }}
-            className="text-gray-300 text-lg md:text-xl measure-tight leading-relaxed mb-8 font-normal"
-          >
-            {description}
-          </motion.p>
-
-          {/* Senior Executive Credentials Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.85, duration: 0.7, ease: PREMIUM_EASE }}
-            className="border-y border-white/15 py-4 mb-10 max-w-2xl flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6"
-          >
-            {executiveTitles.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div key={idx} className="flex items-center gap-2.5">
-                  <Icon className="w-4 h-4 text-executive-gold flex-shrink-0" />
-                  <span className="text-gray-200 text-xs sm:text-sm font-medium tracking-wide">
-                    {item.text}
-                  </span>
-                  {idx < executiveTitles.length - 1 && (
-                    <span className="hidden sm:inline text-gray-600 ml-3">•</span>
-                  )}
-                </div>
-              );
-            })}
-          </motion.div>
-
-          {/* Action CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.95, duration: 0.7, ease: PREMIUM_EASE }}
-            className="flex flex-wrap items-center gap-4"
-          >
-            <a
-              href="#profile"
-              className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-executive-gold text-executive-darkBg font-bold text-sm rounded-sm hover:bg-[#dbb84a] transition-all duration-300 ease-premium hover:shadow-[0_0_20px_rgba(201,162,39,0.3)] hover:-translate-y-0.5"
+            {/* Lead Narrative Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75, duration: 0.7, ease: PREMIUM_EASE }}
+              className="text-gray-300 text-lg md:text-xl leading-relaxed mb-8 font-normal"
             >
-              <span>View Full Profile</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
+              {description}
+            </motion.p>
 
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 border border-white/20 text-white font-semibold text-sm rounded-sm hover:border-executive-gold hover:text-executive-gold transition-all duration-300 ease-premium hover:-translate-y-0.5"
+            {/* Senior Executive Credentials Bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.85, duration: 0.7, ease: PREMIUM_EASE }}
+              className="border-y border-white/15 py-4 mb-10 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6"
             >
-              <span>Get in Touch</span>
-            </a>
+              {executiveTitles.map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <div key={idx} className="flex items-center gap-2.5">
+                    <Icon className="w-4 h-4 text-executive-gold flex-shrink-0" />
+                    <span className="text-gray-200 text-xs sm:text-sm font-medium tracking-wide">
+                      {item.text}
+                    </span>
+                    {idx < executiveTitles.length - 1 && (
+                      <span className="hidden sm:inline text-gray-600 ml-3">•</span>
+                    )}
+                  </div>
+                );
+              })}
+            </motion.div>
 
-            {cvUrl && cvUrl !== "#profile" && (
+            {/* Action CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.95, duration: 0.7, ease: PREMIUM_EASE }}
+              className="flex flex-wrap items-center gap-4"
+            >
               <a
-                href={cvUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3.5 text-gray-300 hover:text-executive-gold text-sm font-medium transition-colors duration-300"
+                href="#profile"
+                className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-executive-gold text-executive-darkBg font-bold text-sm rounded-sm hover:bg-[#dbb84a] transition-all duration-300 ease-premium hover:shadow-[0_0_20px_rgba(201,162,39,0.3)] hover:-translate-y-0.5"
               >
-                <FileText className="w-4 h-4 text-executive-gold" />
-                <span>Curriculum Vitae</span>
+                <span>View Full Profile</span>
+                <ArrowRight className="w-4 h-4" />
               </a>
+
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 border border-white/20 text-white font-semibold text-sm rounded-sm hover:border-executive-gold hover:text-executive-gold transition-all duration-300 ease-premium hover:-translate-y-0.5"
+              >
+                <span>Get in Touch</span>
+              </a>
+
+              {cvUrl && cvUrl !== "#profile" && (
+                <a
+                  href={cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3.5 text-gray-300 hover:text-executive-gold text-sm font-medium transition-colors duration-300"
+                >
+                  <FileText className="w-4 h-4 text-executive-gold" />
+                  <span>Curriculum Vitae</span>
+                </a>
+              )}
+            </motion.div>
+
+          </div>
+
+          {/* ── RIGHT: Portrait Image ──────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5, duration: 1.0, ease: PREMIUM_EASE }}
+            className="order-1 lg:order-2 flex justify-center lg:justify-end"
+          >
+            {imageUrl ? (
+              <div className="relative w-[320px] sm:w-[400px] lg:w-full lg:max-w-[520px]">
+                {/* Decorative gold corner accent */}
+                <div className="absolute -top-3 -right-3 w-24 h-24 border-t-2 border-r-2 border-executive-gold/40 z-10 pointer-events-none" />
+                <div className="absolute -bottom-3 -left-3 w-24 h-24 border-b-2 border-l-2 border-executive-gold/40 z-10 pointer-events-none" />
+
+                {/* Image container with editorial crop */}
+                <div
+                  className="relative aspect-[3/4] overflow-hidden bg-gray-800"
+                  style={{
+                    clipPath: "polygon(0 0, 100% 0, 100% 92%, 88% 100%, 0 100%)",
+                  }}
+                >
+                  <Image
+                    src={imageUrl}
+                    alt={title}
+                    fill
+                    priority
+                    className="object-cover object-top"
+                    style={{ transform: "scaleX(-1)" }}
+                  />
+                  {/* Subtle overlay gradient from bottom */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-executive-darkBg/50 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                {/* Name plate accent under image */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.0, duration: 0.6, ease: PREMIUM_EASE }}
+                  className="mt-4 flex items-center gap-3"
+                >
+                  <div className="h-[1px] flex-1 bg-gradient-to-r from-executive-gold/60 to-transparent" />
+                  <span className="text-[10px] tracking-[0.3em] uppercase text-gray-500 font-medium whitespace-nowrap">
+                    Republic of Niger
+                  </span>
+                </motion.div>
+              </div>
+            ) : (
+              /* Placeholder when no image is provided */
+              <div className="relative w-[320px] sm:w-[400px] lg:w-full lg:max-w-[520px] aspect-[3/4] bg-gray-800/40 border border-gray-700/50 flex items-center justify-center">
+                <span className="text-gray-600 text-sm tracking-wider uppercase">Portrait</span>
+              </div>
             )}
           </motion.div>
 
@@ -214,5 +256,6 @@ export function HeroSection({ data }: { data?: HeroData }) {
     </section>
   );
 }
+
 
 
