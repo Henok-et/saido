@@ -22,4 +22,25 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
+
+  document: {
+    actions: (prev, context) => {
+      // Reorder so Delete is prominent — right after Publish & Unpublish
+      const publish = prev.find(a => a.action === 'publish')
+      const unpublish = prev.find(a => a.action === 'unpublish')
+      const del = prev.find(a => a.action === 'delete')
+      const duplicate = prev.find(a => a.action === 'duplicate')
+      const rest = prev.filter(
+        a => a.action !== 'publish' && a.action !== 'unpublish' && a.action !== 'delete' && a.action !== 'duplicate'
+      )
+
+      return [
+        ...(publish ? [publish] : []),
+        ...(unpublish ? [unpublish] : []),
+        ...(del ? [del] : []),
+        ...(duplicate ? [duplicate] : []),
+        ...rest,
+      ]
+    },
+  },
 })
