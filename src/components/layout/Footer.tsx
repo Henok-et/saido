@@ -1,13 +1,13 @@
 import { Facebook, BookOpen } from "lucide-react";
 
 const NAV = [
-  { name: "Profile",      href: "#profile"      },
-  { name: "Experience",   href: "#experience"   },
-  { name: "Initiatives",  href: "#initiatives"  },
-  { name: "Publications", href: "#publications" },
-  { name: "Speaking",     href: "#speaking"     },
-  { name: "Blog",         href: "#blog"         },
-  { name: "Contact",      href: "#contact"      },
+  { name: "Profile",             href: "#profile"      },
+  { name: "Career & Leadership", href: "#experience"   },
+  { name: "Initiatives",         href: "#initiatives"  },
+  { name: "Publications",        href: "#publications" },
+  { name: "Engagements",         href: "#engagement"   },
+  { name: "Insights",            href: "#blog"         },
+  { name: "Connect",             href: "#contact"      },
 ];
 
 // Only profiles that actually resolve to Prof. Madougou belong here. The

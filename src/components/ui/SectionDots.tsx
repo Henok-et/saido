@@ -19,18 +19,16 @@ import { useEffect, useState } from "react";
 
 const SECTION_LABELS: Record<string, string> = {
   hero: "Introduction",
-  metrics: "Impact",
+  metrics: "Impact at a Glance",
   profile: "Profile",
-  experience: "Experience",
-  governance: "Governance",
-  research: "Research",
+  experience: "Career & Leadership",
+  research: "Research & Impact",
   initiatives: "Initiatives",
-  awards: "Awards",
+  recognition: "Recognition",
   publications: "Publications",
-  speaking: "Speaking",
-  testimonials: "Testimonials",
-  blog: "Blog",
-  contact: "Contact",
+  engagement: "Speaking & Engagements",
+  blog: "Insights",
+  contact: "Let's Connect",
   footer: "Details",
 };
 

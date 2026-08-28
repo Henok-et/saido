@@ -9,7 +9,7 @@ export default defineType({
       name: 'title',
       title: 'Section Title',
       type: 'string',
-      initialValue: 'Get in Touch'
+      initialValue: "Let's Connect"
     }),
     defineField({
       name: 'description',

@@ -1,17 +1,33 @@
-import { AnimatedSection } from "../ui/AnimatedSection";
+"use client";
+
 import { motion } from "framer-motion";
+import { AnimatedSection, PREMIUM_EASE } from "../ui/AnimatedSection";
 import { PendingContent } from "../ui/PendingContent";
+import { Briefcase, Landmark, ShieldCheck, Handshake, GraduationCap } from "lucide-react";
+
+type ExperienceCategory = "Professional" | "Leadership" | "Governance" | "Advisory" | "Academic";
 
 interface ExperienceItem {
   _id: string;
   role: string;
   organization: string;
+  category?: ExperienceCategory;
   startDate?: string;
   endDate?: string;
   current?: boolean;
+  location?: string;
   description?: any;
   achievements?: string[];
+  responsibilities?: string[];
 }
+
+const CATEGORY_ICON: Record<ExperienceCategory, typeof Briefcase> = {
+  Professional: Briefcase,
+  Leadership: Landmark,
+  Governance: ShieldCheck,
+  Advisory: Handshake,
+  Academic: GraduationCap,
+};
 
 export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
   const hasData = data && data.length > 0;
@@ -34,7 +50,6 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
   const renderDescription = (desc: any) => {
     if (!desc) return null;
     if (typeof desc === 'string') return <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{desc}</p>;
-    // If it's Portable Text array, just render the text of the first block for now
     if (Array.isArray(desc) && desc[0]?.children) {
       return <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">{desc.map((b:any) => b.children.map((c:any) => c.text).join('')).join('\n')}</p>;
     }
@@ -51,13 +66,19 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="section-header section-header--center">
-          <span className="section-label after-label block">Leadership Journey</span>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7, ease: PREMIUM_EASE }}
+          className="section-header section-header--center"
+        >
+          <span className="section-label after-label block">The Journey</span>
           <h2 className="font-playfair type-section text-gray-900 dark:text-white">
-            Professional Experience
+            Career & Leadership
           </h2>
           <div className="before-title h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
-        </div>
+        </motion.div>
 
         {hasData ? (
           <div className="relative">
@@ -67,29 +88,56 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
             {data.map((exp, index) => {
               const isLeft = index % 2 === 0;
               return (
-                <div key={exp._id} className={`relative mb-12 md:mb-16 flex md:items-start ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}>
+                <motion.div
+                  key={exp._id}
+                  initial={{ opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.65, ease: PREMIUM_EASE, delay: index * 0.1 }}
+                  className={`relative mb-12 md:mb-16 flex md:items-start ${isLeft ? "md:flex-row" : "md:flex-row-reverse"}`}
+                >
 
                   {/* Card */}
                   <div className={`w-full md:w-[calc(50%-2.5rem)] ${isLeft ? "md:mr-10" : "md:ml-10"}`}>
-                    <div className="group bg-white dark:bg-executive-darkBg rounded-2xl p-6 md:p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-executive-gold/30 dark:hover:border-executive-gold/30 transition-all duration-300 hover:-translate-y-1">
+                    <div className="group pt-6 pb-4 border-t border-gray-300 dark:border-gray-800 transition-colors">
 
                       {/* Period badge */}
-                      <div className="inline-flex items-center gap-2 mb-4">
-                        <div className={`w-2 h-2 rounded-full ${exp.current ? "bg-executive-gold animate-pulse-gold" : "bg-gray-400"}`} />
+                      <div className="inline-flex flex-wrap items-center gap-2 mb-3">
+                        <div className={`w-2 h-2 rounded-full ${exp.current ? "bg-executive-gold" : "bg-gray-400"}`} />
                         <span className="text-xs font-bold tracking-wider text-gold-ink uppercase">
                           {formatPeriod(exp)}
                         </span>
                         {exp.current && (
-                          <span className="text-[10px] font-semibold text-white bg-executive-gold rounded-full px-2 py-0.5">Current</span>
+                          <span className="text-[10px] font-semibold text-executive-darkBg bg-executive-gold rounded-sm px-2 py-0.5 uppercase tracking-wider">Current</span>
                         )}
                       </div>
 
-                      <h3 className="font-playfair type-card-title text-gray-900 dark:text-white mb-1 group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
+                      {/* Title */}
+                      <h3 className="font-playfair text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1 group-hover:text-executive-blue dark:group-hover:text-executive-gold transition-colors">
                         {exp.role}
                       </h3>
-                      <div className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-4">{exp.organization}</div>
 
+                      {/* Organization & Location */}
+                      <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                        {exp.organization}
+                        {exp.location && <span className="text-gray-400 font-normal"> · {exp.location}</span>}
+                      </div>
+
+                      {/* Description */}
                       {renderDescription(exp.description)}
+
+                      {/* Key Achievements */}
+                      {exp.responsibilities && exp.responsibilities.length > 0 && (
+                        <ul className="space-y-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-800/80">
+                          {exp.responsibilities.map((resp, rIdx) => (
+                            <li key={rIdx} className="text-xs md:text-sm text-gray-600 dark:text-gray-400 flex items-start gap-2 leading-relaxed">
+                              <span className="text-executive-gold mt-1">•</span>
+                              <span>{resp}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
                     </div>
                   </div>
 
@@ -100,7 +148,7 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
 
                   {/* Spacer for other side */}
                   <div className="hidden md:block w-[calc(50%-2.5rem)]" />
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -111,3 +159,4 @@ export function ExperienceTimeline({ data }: { data?: ExperienceItem[] }) {
     </AnimatedSection>
   );
 }
+

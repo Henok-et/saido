@@ -6,26 +6,24 @@ import {
   researchQuery,
   contactQuery,
   experienceQuery,
-  leadershipQuery,
   initiativesQuery,
-  awardsQuery,
+  recognitionQuery,
   publicationsQuery,
-  speakingQuery,
+  featuredPublicationsQuery,
+  engagementQuery,
   testimonialsQuery,
-  blogPostsQuery,
+  latestBlogPostsQuery,
 } from "@/sanity/lib/queries";
 
 import { HeroSection } from "@/components/sections/HeroSection";
 import { MetricsSection } from "@/components/sections/MetricsSection";
 import { ExecutiveProfile } from "@/components/sections/ExecutiveProfile";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
-import { LeadershipGovernanceSection } from "@/components/sections/LeadershipGovernanceSection";
 import { ResearchImpactSection } from "@/components/sections/ResearchImpactSection";
 import { InitiativesSection } from "@/components/sections/InitiativesSection";
-import { AwardsSection } from "@/components/sections/AwardsSection";
+import { RecognitionSection } from "@/components/sections/RecognitionSection";
 import { PublicationsSection } from "@/components/sections/PublicationsSection";
-import { SpeakingSection } from "@/components/sections/SpeakingSection";
-import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { EngagementsSection } from "@/components/sections/EngagementsSection";
 import { BlogSection } from "@/components/sections/BlogSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
@@ -40,13 +38,13 @@ export default async function Home() {
     research,
     contact,
     experience,
-    leadershipRoles,
     initiatives,
-    awards,
+    recognitions,
     publications,
-    speaking,
+    featuredPublications,
+    engagements,
     testimonials,
-    blogPosts
+    latestBlogPosts,
   ] = await Promise.all([
     client.fetch(heroQuery),
     client.fetch(metricsQuery),
@@ -54,22 +52,27 @@ export default async function Home() {
     client.fetch(researchQuery),
     client.fetch(contactQuery),
     client.fetch(experienceQuery),
-    client.fetch(leadershipQuery),
     client.fetch(initiativesQuery),
-    client.fetch(awardsQuery),
+    client.fetch(recognitionQuery),
     client.fetch(publicationsQuery),
-    client.fetch(speakingQuery),
+    client.fetch(featuredPublicationsQuery),
+    client.fetch(engagementQuery),
     client.fetch(testimonialsQuery),
-    client.fetch(blogPostsQuery),
+    client.fetch(latestBlogPostsQuery),
   ]);
 
   const defaultHero = hero ?? {
-    title: 'Saido',
-    subtitle: 'Welcome to Saido',
-    description: 'Empowering research and collaboration.',
+    title: 'Prof. Saidou Madougou',
+    subtitle: 'Strategic Leadership in Education, Science, Technology & Innovation',
+    description: "Advancing Africa's knowledge systems through continental leadership, scientific excellence, and two decades of transformative academic governance.",
     imageUrl: undefined,
-    cvUrl: undefined,
+    cvUrl: profile?.cvUrl || undefined,
   };
+
+  const displayedPublications =
+    featuredPublications && featuredPublications.length > 0
+      ? featuredPublications
+      : publications?.slice(0, 4);
 
   return (
     <main className="w-full">
@@ -77,14 +80,12 @@ export default async function Home() {
       <MetricsSection data={metrics?.items} />
       <ExecutiveProfile data={profile} />
       <ExperienceTimeline data={experience} />
-      <LeadershipGovernanceSection data={leadershipRoles} />
       <ResearchImpactSection data={research} />
-      <InitiativesSection data={initiatives} />
-      <AwardsSection data={awards} />
-      <PublicationsSection data={publications} />
-      <SpeakingSection data={speaking} />
-      <TestimonialsSection data={testimonials} />
-      <BlogSection data={blogPosts} />
+      <InitiativesSection data={initiatives} testimonials={testimonials} />
+      <RecognitionSection data={recognitions} />
+      <PublicationsSection data={displayedPublications} />
+      <EngagementsSection data={engagements} />
+      <BlogSection data={latestBlogPosts} />
       <ContactSection data={contact} />
     </main>
   );

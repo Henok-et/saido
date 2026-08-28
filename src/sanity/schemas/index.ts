@@ -5,11 +5,10 @@ import research from './singletons/research'
 import contact from './singletons/contact'
 
 import experience from './collections/experience'
-import leadership from './collections/leadership'
 import initiative from './collections/initiative'
-import award from './collections/award'
+import recognition from './collections/recognition'
 import publication from './collections/publication'
-import speaking from './collections/speaking'
+import engagement from './collections/engagement'
 import testimonial from './collections/testimonial'
 import blogPost from './collections/blogPost'
 
@@ -20,11 +19,10 @@ export const schemaTypes = [
   research,
   contact,
   experience,
-  leadership,
   initiative,
-  award,
+  recognition,
   publication,
-  speaking,
+  engagement,
   testimonial,
   blogPost,
 ]

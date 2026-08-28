@@ -36,10 +36,11 @@ function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
 }
 
 export function MetricsSection({ data }: { data?: MetricItem[] }) {
-  const hasData = data && data.length > 0;
+  const topMetrics = data?.slice(0, 4);
+  const hasData = topMetrics && topMetrics.length > 0;
 
   const parsed = hasData
-    ? data.map(m => {
+    ? topMetrics.map(m => {
         const num    = parseInt(m.value.replace(/\D/g, ""), 10) || 0;
         const suffix = m.value.replace(/[0-9]/g, "").trim();
         return { ...m, num, suffix };
@@ -47,11 +48,9 @@ export function MetricsSection({ data }: { data?: MetricItem[] }) {
     : [];
 
   return (
-    <section id="metrics" className="scene relative py-20 bg-executive-darkBg overflow-hidden">
+    <section id="metrics" className="scene relative py-20 bg-gray-50 dark:bg-executive-darkSurface border-y border-gray-200/60 dark:border-gray-800 overflow-hidden">
       {/* Background accent */}
-      <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-executive-gold/50 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-executive-gold/50 to-transparent" />
+      <div className="absolute inset-0 dot-pattern opacity-[0.08] dark:opacity-20 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -62,40 +61,35 @@ export function MetricsSection({ data }: { data?: MetricItem[] }) {
           transition={{ duration: 0.6 }}
           className="section-header section-header--center"
         >
-          <span className="section-label section-label-on-dark after-label block">Impact by the Numbers</span>
-          <h2 className="font-playfair type-section text-white">
-            A Legacy of{" "}
-            <span className="text-gradient-gold">Excellence</span>
+          <span className="section-label after-label block">By the Numbers</span>
+          <h2 className="font-playfair type-subsection text-gray-900 dark:text-white">
+            Impact at a <span className="text-gold-ink dark:text-gradient-gold">Glance</span>
           </h2>
+          <div className="before-title h-[2px] w-16 bg-executive-gold rounded-full mx-auto" />
         </motion.div>
 
         {hasData ? (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {parsed.map((metric, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="relative group"
+                className="border-t border-gray-300 dark:border-gray-800 pt-6 pb-2"
               >
-                <div className="glass-card rounded-2xl p-6 md:p-8 text-center h-full border border-white/5 hover:border-executive-gold/30 transition-all duration-300 hover:bg-white/[0.08]">
-                  {/* Gold accent top bar */}
-                  <div className="absolute top-0 left-8 right-8 h-[2px] bg-gradient-to-r from-transparent via-executive-gold/60 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  <div className="text-5xl md:text-6xl font-playfair font-bold text-executive-gold mb-3 tabular-nums">
-                    <CountUp target={metric.num} suffix={metric.suffix} />
-                  </div>
-                  <div className="text-sm md:text-base text-gray-400 font-medium leading-snug">
-                    {metric.label}
-                  </div>
+                <div className="text-4xl md:text-6xl font-playfair font-bold text-gold-ink dark:text-executive-gold mb-3 tabular-nums tracking-tight">
+                  <CountUp target={metric.num} suffix={metric.suffix} />
+                </div>
+                <div className="text-xs md:text-sm text-gray-700 dark:text-gray-300 font-semibold uppercase tracking-wider leading-snug">
+                  {metric.label}
                 </div>
               </motion.div>
             ))}
           </div>
         ) : (
-          <PendingContent sectionName="Metrics" className="text-white [&_h3]:text-white" />
+          <PendingContent sectionName="Metrics" className="text-gray-900 dark:text-white [&_h3]:text-gray-900 dark:[&_h3]:text-white" />
         )}
       </div>
     </section>

@@ -59,29 +59,25 @@
 /* ─── Utility classes ─────────────────────────────── */
 @layer utilities {
   .gold-accent {
-    @apply border-executive-gold border-solid border;
+    @apply border-executive-gold border-solid border-t;
   }
   .section-padding {
-    @apply py-20 md:py-28;
+    @apply py-24 md:py-32;
+  }
+  .editorial-card {
+    @apply border-t border-gray-200/80 dark:border-gray-800/80 pt-6 pb-2 transition-colors;
   }
   .executive-card {
-    @apply bg-white dark:bg-executive-darkSurface border border-gray-100 dark:border-gray-800 shadow-sm rounded-lg;
+    @apply border-t border-gray-200 dark:border-gray-800 bg-transparent transition-colors;
   }
   .text-gradient-gold {
-    background: linear-gradient(135deg, #C9A227 0%, #f0d060 50%, #C9A227 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--gold);
   }
   .glass-card {
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.1);
+    @apply border-t border-white/15 bg-transparent;
   }
   .glass-card-dark {
-    background: rgba(7,21,37,0.7);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(201,162,39,0.15);
+    @apply border-t border-white/15 bg-transparent;
   }
 }
 

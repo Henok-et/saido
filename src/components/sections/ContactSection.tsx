@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatedSection } from "../ui/AnimatedSection";
+import { motion } from "framer-motion";
+import { AnimatedSection, PREMIUM_EASE } from "../ui/AnimatedSection";
 import { Phone, MapPin } from "lucide-react";
 
 export function ContactSection({ data }: { data?: any }) {
@@ -9,7 +10,7 @@ export function ContactSection({ data }: { data?: any }) {
     firstName: "",
     lastName: "",
     email: "",
-    subject: data?.inquiryTypes?.[0] || "Speaking Engagement",
+    subject: data?.inquiryTypes?.[0] || "Research Collaboration",
     message: "",
   });
   const [status, setStatus] = useState<{
@@ -19,10 +20,12 @@ export function ContactSection({ data }: { data?: any }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const inquiryTypes = data?.inquiryTypes || [
+    "Research Collaboration",
     "Speaking Engagement",
-    "Media Inquiry",
-    "Policy Consultation",
-    "General Message"
+    "Academic Partnership",
+    "Strategic/Policy Advisory",
+    "Partnership",
+    "Other",
   ];
 
   const handleChange = (
@@ -77,7 +80,7 @@ export function ContactSection({ data }: { data?: any }) {
           firstName: "",
           lastName: "",
           email: "",
-          subject: "Speaking Engagement",
+          subject: inquiryTypes[0] || "Research Collaboration",
           message: "",
         });
       } else {
@@ -108,13 +111,19 @@ export function ContactSection({ data }: { data?: any }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
           {/* Contact Info */}
-          <div className="lg:col-span-5">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, ease: PREMIUM_EASE }}
+            className="lg:col-span-5"
+          >
             <span className="section-label section-label-on-dark after-label block">Get in Touch</span>
-            <h2 className="font-playfair type-section text-white after-title">
-              {data?.title || <><span className="text-gradient-gold">Get in Touch</span></>}
+            <h2 className="font-playfair type-subsection text-white after-title">
+              {data?.title || <><span className="text-gradient-gold">Let's Connect</span></>}
             </h2>
             <p className="text-gray-400 mb-12 max-w-md leading-relaxed text-lg">
-              {data?.description || "For speaking inquiries, media requests, or policy consultations, please reach out to Prof. Saidou's office."}
+              {data?.description || "For research collaboration, speaking engagements, or strategic and policy advisory, please reach out to Prof. Saidou's office."}
             </p>
 
             <div className="space-y-8">
@@ -138,18 +147,21 @@ export function ContactSection({ data }: { data?: any }) {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Contact Form */}
-          <div className="lg:col-span-7">
-             <div className="glass-card-dark rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl relative">
-                {/* Subtle top border glow */}
-                <div className="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-executive-gold/40 to-transparent" />
-
-                <h3 className="font-playfair type-card-title mb-8 text-white">Send a Message</h3>
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.8, ease: PREMIUM_EASE, delay: 0.15 }}
+            className="lg:col-span-7"
+          >
+             <div className="border-t border-white/20 pt-8 relative">
+                <h3 className="font-playfair text-2xl font-bold mb-6 text-white">Send a Message</h3>
                 
                 {status.type && (
-                <div className={`p-4 mb-8 rounded-xl text-sm border font-medium ${
+                <div className={`p-4 mb-6 rounded-sm text-sm border font-medium ${
                     status.type === "success" 
                     ? "bg-green-900/30 text-green-200 border-green-800" 
                     : "bg-red-900/30 text-red-200 border-red-800"
@@ -161,7 +173,7 @@ export function ContactSection({ data }: { data?: any }) {
                 <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                    <label htmlFor="firstName" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">First Name</label>
+                    <label htmlFor="firstName" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">First Name</label>
                     <input 
                         type="text" 
                         id="firstName" 
@@ -169,11 +181,11 @@ export function ContactSection({ data }: { data?: any }) {
                         onChange={handleChange}
                         required
                         disabled={isSubmitting}
-                        className="w-full px-5 py-3.5 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-executive-gold focus:border-transparent text-white placeholder-gray-600 transition-all disabled:opacity-50" 
+                        className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-sm focus:ring-1 focus:ring-executive-gold focus:border-executive-gold text-white text-sm placeholder-gray-500 transition-all disabled:opacity-50" 
                     />
                     </div>
                     <div>
-                    <label htmlFor="lastName" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Last Name</label>
+                    <label htmlFor="lastName" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Last Name</label>
                     <input 
                         type="text" 
                         id="lastName" 
@@ -181,41 +193,42 @@ export function ContactSection({ data }: { data?: any }) {
                         onChange={handleChange}
                         required
                         disabled={isSubmitting}
-                        className="w-full px-5 py-3.5 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-executive-gold focus:border-transparent text-white placeholder-gray-600 transition-all disabled:opacity-50" 
+                        className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-sm focus:ring-1 focus:ring-executive-gold focus:border-executive-gold text-white text-sm placeholder-gray-500 transition-all disabled:opacity-50" 
                     />
                     </div>
                 </div>
-                
-                <div>
-                    <label htmlFor="email" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Email Address</label>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Email Address</label>
                     <input 
-                    type="email" 
-                    id="email" 
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    disabled={isSubmitting}
-                    className="w-full px-5 py-3.5 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-executive-gold focus:border-transparent text-white placeholder-gray-600 transition-all disabled:opacity-50" 
+                        type="email" 
+                        id="email" 
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-sm focus:ring-1 focus:ring-executive-gold focus:border-executive-gold text-white text-sm placeholder-gray-500 transition-all disabled:opacity-50" 
                     />
-                </div>
-
-                <div>
-                    <label htmlFor="subject" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Subject</label>
+                    </div>
+                    <div>
+                    <label htmlFor="subject" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Inquiry Type</label>
                     <select 
-                    id="subject" 
-                    value={formData.subject}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    className="w-full px-5 py-3.5 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-executive-gold focus:border-transparent text-white transition-all disabled:opacity-50 appearance-none"
+                        id="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-sm focus:ring-1 focus:ring-executive-gold focus:border-executive-gold text-white text-sm transition-all disabled:opacity-50"
                     >
-                    {inquiryTypes.map((type: string, idx: number) => (
-                      <option key={idx} className="bg-executive-darkBg">{type}</option>
-                    ))}
+                        {inquiryTypes.map((type: string) => (
+                          <option key={type} value={type} className="bg-executive-darkBg text-white">{type}</option>
+                        ))}
                     </select>
+                    </div>
                 </div>
 
                 <div>
-                    <label htmlFor="message" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Message</label>
+                    <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-2">Message</label>
                     <textarea 
                     id="message" 
                     rows={4} 
@@ -223,20 +236,20 @@ export function ContactSection({ data }: { data?: any }) {
                     onChange={handleChange}
                     required
                     disabled={isSubmitting}
-                    className="w-full px-5 py-3.5 bg-black/20 border border-white/10 rounded-xl focus:ring-2 focus:ring-executive-gold focus:border-transparent text-white placeholder-gray-600 transition-all disabled:opacity-50 resize-none"
+                    className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-sm focus:ring-1 focus:ring-executive-gold focus:border-executive-gold text-white text-sm placeholder-gray-500 transition-all disabled:opacity-50 resize-none"
                     ></textarea>
                 </div>
 
                 <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="w-full flex justify-center py-4 px-6 rounded-xl text-sm font-bold text-executive-darkBg bg-executive-gold hover:bg-[#dbb84a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-executive-darkBg focus:ring-executive-gold transition-all hover:shadow-[0_0_20px_rgba(201,162,39,0.3)] disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+                    className="w-full flex justify-center py-3.5 px-6 rounded-sm text-xs font-bold uppercase tracking-wider text-executive-darkBg bg-executive-gold hover:bg-[#dbb84a] focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-4"
                 >
                     {isSubmitting ? "Sending..." : "Submit Request"}
                 </button>
                 </form>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>

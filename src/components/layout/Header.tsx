@@ -3,53 +3,55 @@
 import Link from "next/link";
 import { ThemeToggle } from "../ui/ThemeToggle";
 import { Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PREMIUM_EASE } from "../ui/AnimatedSection";
 
 const NAV_LINKS = [
-  { name: "Profile",      href: "#profile"      },
-  { name: "Experience",   href: "#experience"   },
-  { name: "Initiatives",  href: "#initiatives"  },
-  { name: "Publications", href: "#publications" },
-  { name: "Speaking",     href: "#speaking"     },
-  { name: "Testimonials", href: "#testimonials" },
-  { name: "Blog",         href: "#blog"         },
-  { name: "Contact",      href: "#contact"      },
+  { name: "Profile",             href: "#profile"      },
+  { name: "Career & Leadership", href: "#experience"   },
+  { name: "Initiatives",         href: "#initiatives"  },
+  { name: "Publications",        href: "#publications" },
+  { name: "Engagements",         href: "#engagement"   },
+  { name: "Insights",            href: "#blog"         },
+  { name: "Connect",             href: "#contact"      },
 ];
 
 export function Header() {
-  const [mobileOpen, setMobileOpen]   = useState(false);
-  const [scrolled, setScrolled]       = useState(false);
-  const [isVisible, setIsVisible]     = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [activeSection, setActiveSection] = useState("");
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setScrolled(currentScrollY > 20);
-      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+      
+      if (currentScrollY > lastScrollYRef.current && currentScrollY > 80) {
         setIsVisible(false);
         setMobileOpen(false);
       } else {
         setIsVisible(true);
       }
-      setLastScrollY(currentScrollY);
+      lastScrollYRef.current = currentScrollY;
 
       // Active section detection
-      const sections = NAV_LINKS.map(l => l.href.replace("#", ""));
-      for (const id of sections.reverse()) {
+      const sections = NAV_LINKS.map((l) => l.href.replace("#", ""));
+      const reversedSections = [...sections].reverse();
+      for (const id of reversedSections) {
         const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 120) {
+        if (el && window.scrollY >= el.offsetTop - 140) {
           setActiveSection(id);
           break;
         }
       }
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   return (
     <motion.header

@@ -1,8 +1,8 @@
 import { defineType, defineField } from 'sanity';
 
 export default defineType({
-  name: 'speaking',
-  title: 'Speaking Engagement',
+  name: 'engagement',
+  title: 'Speaking & Engagement',
   type: 'document',
   fields: [
     defineField({
@@ -10,6 +10,17 @@ export default defineType({
       title: 'Event / Topic Title',
       type: 'string',
       validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'type',
+      title: 'Type',
+      type: 'string',
+      options: {
+        list: ['Keynote', 'Conference', 'Panel', 'Lecture', 'Workshop', 'Interview', 'Public Talk'],
+        layout: 'radio',
+      },
+      validation: Rule => Rule.required(),
+      initialValue: 'Keynote',
     }),
     defineField({
       name: 'event',
@@ -35,6 +46,18 @@ export default defineType({
       name: 'link',
       title: 'Event Link',
       type: 'url',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Event Photo / Cover Image',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: 'imageCaption',
+      title: 'Photo Caption',
+      type: 'string',
+      description: 'Caption or credit for the event photo',
     }),
     defineField({
       name: 'orderRank',

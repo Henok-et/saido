@@ -14,9 +14,9 @@ export const myStructure = (S: StructureBuilder) =>
             .documentId('hero')
         ),
 
-      // 2. Metrics Section
+      // 2. Impact at a Glance
       S.listItem()
-        .title('Metrics Section')
+        .title('Impact at a Glance')
         .id('metricsSection')
         .child(
           S.document()
@@ -36,27 +36,19 @@ export const myStructure = (S: StructureBuilder) =>
             .documentId('profile')
         ),
 
-      // 4. Experience
+      // 4. Career & Leadership
       S.listItem()
-        .title('Experience')
+        .title('Career & Leadership')
         .child(
           S.documentTypeList('experience')
-            .title('Experience Items')
-        ),
-
-      // 5. Leadership & Governance
-      S.listItem()
-        .title('Leadership & Governance')
-        .child(
-          S.documentTypeList('leadership')
-            .title('Leadership Roles')
+            .title('Career & Leadership')
         ),
 
       S.divider(),
 
-      // 6. Research & Impact
+      // 5. Research & Impact
       S.listItem()
-        .title('Research & Academic Impact')
+        .title('Research & Impact')
         .id('researchImpact')
         .child(
           S.document()
@@ -64,7 +56,7 @@ export const myStructure = (S: StructureBuilder) =>
             .documentId('research')
         ),
 
-      // 7. Initiatives
+      // 6. Strategic Initiatives
       S.listItem()
         .title('Strategic Initiatives')
         .child(
@@ -72,31 +64,7 @@ export const myStructure = (S: StructureBuilder) =>
             .title('Initiatives')
         ),
 
-      // 8. Awards
-      S.listItem()
-        .title('Awards & Honors')
-        .child(
-          S.documentTypeList('award')
-            .title('Awards')
-        ),
-
-      // 9. Publications
-      S.listItem()
-        .title('Publications')
-        .child(
-          S.documentTypeList('publication')
-            .title('Publications')
-        ),
-
-      // 10. Speaking
-      S.listItem()
-        .title('Speaking Engagements')
-        .child(
-          S.documentTypeList('speaking')
-            .title('Speaking Engagements')
-        ),
-
-      // 11. Testimonials
+      // 7. Testimonials (embedded within Strategic Initiatives on the site)
       S.listItem()
         .title('Testimonials')
         .child(
@@ -104,9 +72,35 @@ export const myStructure = (S: StructureBuilder) =>
             .title('Testimonials')
         ),
 
-      // 12. Blog
+      S.divider(),
+
+      // 8. Recognition
       S.listItem()
-        .title('Blog')
+        .title('Recognition')
+        .child(
+          S.documentTypeList('recognition')
+            .title('Recognition')
+        ),
+
+      // 9. Selected Publications
+      S.listItem()
+        .title('Selected Publications')
+        .child(
+          S.documentTypeList('publication')
+            .title('Publications')
+        ),
+
+      // 10. Speaking & Engagements
+      S.listItem()
+        .title('Speaking & Engagements')
+        .child(
+          S.documentTypeList('engagement')
+            .title('Speaking & Engagements')
+        ),
+
+      // 11. Insights
+      S.listItem()
+        .title('Insights')
         .child(
           S.documentTypeList('blogPost')
             .title('Blog Posts')
@@ -114,9 +108,9 @@ export const myStructure = (S: StructureBuilder) =>
 
       S.divider(),
 
-      // 13. Contact
+      // 12. Let's Connect
       S.listItem()
-        .title('Contact Information')
+        .title("Let's Connect")
         .id('contactSection')
         .child(
           S.document()

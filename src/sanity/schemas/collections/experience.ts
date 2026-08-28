@@ -18,6 +18,17 @@ export default defineType({
       validation: Rule => Rule.required(),
     }),
     defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: ['Professional', 'Leadership', 'Governance', 'Advisory', 'Academic'],
+        layout: 'radio',
+      },
+      validation: Rule => Rule.required(),
+      initialValue: 'Professional',
+    }),
+    defineField({
       name: 'location',
       title: 'Location',
       type: 'string',

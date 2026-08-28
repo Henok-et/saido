@@ -26,6 +26,7 @@ export const profileQuery = groq`*[_type == "profile" && _id == "profile"][0] {
 
 export const researchQuery = groq`*[_type == "research"][0] {
   sectionTitle,
+  sectionDescription,
   impacts
 }`
 
@@ -44,17 +45,11 @@ export const experienceQuery = groq`*[_type == "experience"] | order(startDate d
   _id,
   role,
   organization,
+  category,
   location,
   startDate,
   endDate,
   current,
-  description
-}`
-
-export const leadershipQuery = groq`*[_type == "leadership"] | order(_createdAt asc) {
-  _id,
-  role,
-  organization,
   description
 }`
 
@@ -68,9 +63,20 @@ export const initiativesQuery = groq`*[_type == "initiative"] | order(_createdAt
   content
 }`
 
-export const awardsQuery = groq`*[_type == "award"] | order(year desc) {
+export const initiativeBySlugQuery = groq`*[_type == "initiative" && slug.current == $slug][0] {
   _id,
   title,
+  category,
+  summary,
+  "imageUrl": image.asset->url,
+  "slug": slug.current,
+  content
+}`
+
+export const recognitionQuery = groq`*[_type == "recognition"] | order(year desc) {
+  _id,
+  title,
+  type,
   organization,
   year,
   description
@@ -84,17 +90,33 @@ export const publicationsQuery = groq`*[_type == "publication"] | order(_created
   date,
   abstract,
   "pdfUrl": pdfFile.asset->url,
-  externalLink
+  externalLink,
+  featured
 }`
 
-export const speakingQuery = groq`*[_type == "speaking"] | order(date desc) {
+export const featuredPublicationsQuery = groq`*[_type == "publication" && featured == true] | order(_createdAt desc) [0...6] {
   _id,
   title,
+  type,
+  journal,
+  date,
+  abstract,
+  "pdfUrl": pdfFile.asset->url,
+  externalLink,
+  featured
+}`
+
+export const engagementQuery = groq`*[_type == "engagement"] | order(date desc) {
+  _id,
+  title,
+  type,
   event,
   date,
   location,
   description,
-  link
+  link,
+  "imageUrl": image.asset->url,
+  imageCaption
 }`
 
 export const testimonialsQuery = groq`*[_type == "testimonial"] | order(_createdAt asc) {
@@ -115,4 +137,27 @@ export const blogPostsQuery = groq`*[_type == "blogPost"] | order(publishedAt de
   author,
   excerpt,
   "imageUrl": image.asset->url
+}`
+
+export const latestBlogPostsQuery = groq`*[_type == "blogPost"] | order(publishedAt desc) [0...3] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  category,
+  author,
+  excerpt,
+  "imageUrl": image.asset->url
+}`
+
+export const blogPostBySlugQuery = groq`*[_type == "blogPost" && slug.current == $slug][0] {
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  category,
+  author,
+  excerpt,
+  "imageUrl": image.asset->url,
+  content
 }`

@@ -1,21 +1,36 @@
 import { defineType, defineField } from 'sanity';
 
 export default defineType({
-  name: 'leadership',
-  title: 'Leadership & Governance',
+  name: 'recognition',
+  title: 'Recognition',
   type: 'document',
   fields: [
     defineField({
-      name: 'role',
-      title: 'Role',
+      name: 'title',
+      title: 'Title',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
     defineField({
-      name: 'organization',
-      title: 'Organization',
+      name: 'type',
+      title: 'Type',
       type: 'string',
+      options: {
+        list: ['Award', 'Honor', 'Fellowship', 'Distinction', 'Recognition'],
+        layout: 'radio',
+      },
       validation: Rule => Rule.required(),
+      initialValue: 'Award',
+    }),
+    defineField({
+      name: 'organization',
+      title: 'Issuing Organization',
+      type: 'string',
+    }),
+    defineField({
+      name: 'year',
+      title: 'Year',
+      type: 'string',
     }),
     defineField({
       name: 'description',
@@ -31,7 +46,7 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'role',
+      title: 'title',
       subtitle: 'organization',
     }
   }

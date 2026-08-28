@@ -42,6 +42,13 @@ export default defineType({
       type: 'url',
     }),
     defineField({
+      name: 'featured',
+      title: 'Featured on Homepage',
+      description: 'Controls which publications appear in the homepage "Selected Publications" preview (up to 6). All others still appear on the full /publications archive.',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'orderRank',
       title: 'Order Rank',
       type: 'string',
