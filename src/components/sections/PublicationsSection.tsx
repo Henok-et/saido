@@ -79,11 +79,7 @@ export function PublicationsSection({ data }: { data?: any[] }) {
                     <FileText className="mr-1.5 h-3.5 w-3.5 text-executive-gold" /> Citation
                   </a>
                 )}
-                {!pub.pdfUrl && !pub.externalLink && (
-                   <a href="#" className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white rounded-sm hover:border-executive-gold transition-all duration-200">
-                    <Download className="mr-1.5 h-3.5 w-3.5 text-executive-gold" /> PDF
-                  </a>
-                )}
+
               </div>
 
             </motion.div>

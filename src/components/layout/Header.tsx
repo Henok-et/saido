@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ThemeToggle } from "../ui/ThemeToggle";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { PREMIUM_EASE } from "../ui/AnimatedSection";
 
@@ -18,6 +19,8 @@ const NAV_LINKS = [
 ];
 
 export function Header() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -85,9 +88,9 @@ export function Header() {
               const sectionId = link.href.replace("#", "");
               const isActive  = activeSection === sectionId;
               return (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  href={isHome ? link.href : `/${link.href}`}
                   className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-md ${
                     isActive
                       ? "text-executive-gold"
@@ -103,17 +106,17 @@ export function Header() {
                       className="absolute bottom-0 left-3 right-3 h-[2px] bg-executive-gold rounded-full"
                     />
                   )}
-                </a>
+                </Link>
               );
             })}
             <div className={`ml-3 pl-3 border-l flex items-center gap-3 ${scrolled ? "border-gray-200 dark:border-white/10" : "border-white/10"}`}>
               <ThemeToggle />
-              <a
-                href="#contact"
+              <Link
+                href={isHome ? "#contact" : "/#contact"}
                 className="px-4 py-2 bg-executive-gold text-executive-darkBg text-sm font-bold rounded-lg hover:bg-[#dbb84a] transition-all duration-200 hover:shadow-[0_0_20px_rgba(201,162,39,0.35)]"
               >
                 Contact
-              </a>
+              </Link>
             </div>
           </nav>
 
@@ -149,23 +152,23 @@ export function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.04 }}
                 >
-                  <a
-                    href={link.href}
+                  <Link
+                    href={isHome ? link.href : `/${link.href}`}
                     onClick={() => setMobileOpen(false)}
                     className="block px-4 py-3 rounded-lg text-black hover:text-black/70 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-white/5 font-medium transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </motion.div>
               ))}
               <div className="pt-3 pb-1">
-                <a
-                  href="#contact"
+                <Link
+                  href={isHome ? "#contact" : "/#contact"}
                   onClick={() => setMobileOpen(false)}
                   className="block w-full text-center px-4 py-3 bg-executive-gold text-executive-darkBg font-bold rounded-lg hover:bg-[#dbb84a] transition-colors"
                 >
                   Contact Office
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

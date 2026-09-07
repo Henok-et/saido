@@ -1,4 +1,6 @@
 import { Facebook, BookOpen } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const NAV = [
   { name: "Profile",             href: "#profile"      },
@@ -25,6 +27,8 @@ const SOCIALS = [
 // scene permanently out of reach, since goTo() clamps to the last .scene
 // index. Outside paginated mode the class is inert.
 export function Footer() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   return (
     <footer id="footer" className="scene relative bg-executive-darkBg border-t border-executive-gold/20 overflow-hidden">
       {/* Top glow */}
@@ -71,13 +75,13 @@ export function Footer() {
             <ul className="space-y-3">
               {NAV.map(link => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    href={isHome ? link.href : `/${link.href}`}
                     className="text-gray-400 hover:text-executive-gold text-sm transition-colors duration-200 flex items-center gap-1.5 group"
                   >
                     <span className="w-0 group-hover:w-3 h-px bg-executive-gold transition-all duration-200 overflow-hidden" />
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

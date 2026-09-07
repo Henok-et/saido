@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 /**
  * Fixed vertical dot rail on the right edge — the desktop navigation, in
@@ -33,10 +34,18 @@ const SECTION_LABELS: Record<string, string> = {
 };
 
 export function SectionDots() {
+  const pathname = usePathname();
+  const router = useRouter();
   const [sections, setSections] = useState<{ id: string; label: string }[]>([]);
   const [activeId, setActiveId] = useState("");
 
   useEffect(() => {
+    if (pathname !== "/") {
+      setSections(Object.entries(SECTION_LABELS).map(([id, label]) => ({ id, label })));
+      setActiveId("");
+      return;
+    }
+
     const sceneEls = Array.from(document.querySelectorAll<HTMLElement>(".scene"));
     setSections(
       sceneEls
@@ -58,17 +67,21 @@ export function SectionDots() {
       observer.observe(el, { attributes: true, attributeFilter: ["class"] })
     );
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   if (sections.length === 0) return null;
 
   const goTo = (id: string) => {
-    const link = document.createElement("a");
-    link.href = `#${id}`;
-    link.style.display = "none";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+    if (pathname === "/") {
+      const link = document.createElement("a");
+      link.href = `#${id}`;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } else {
+      router.push(`/#${id}`);
+    }
   };
 
   return (

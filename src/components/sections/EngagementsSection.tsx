@@ -114,11 +114,13 @@ export function EngagementsSection({ data }: { data?: EngagementItem[] }) {
                 )}
               </div>
 
-              <div className="mt-4 pt-3">
-                 <a href={evt.link || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white group-hover:text-gold-ink transition-colors">
-                  View Event <ExternalLink className="ml-1 w-3.5 h-3.5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
-                </a>
-              </div>
+              {evt.link && (
+                <div className="mt-4 pt-3">
+                   <a href={evt.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-white group-hover:text-gold-ink transition-colors">
+                    View Event <ExternalLink className="ml-1 w-3.5 h-3.5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                  </a>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>

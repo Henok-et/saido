@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 /**
  * "One scroll gesture = one section" pagination on desktop, layered on top
@@ -77,7 +78,13 @@ function makeCubicBezierEasing(x1: number, y1: number, x2: number, y2: number) {
 const easePremium = makeCubicBezierEasing(0.22, 1, 0.36, 1);
 
 export function SectionPager() {
+  const pathname = usePathname();
+
   useEffect(() => {
+    if (pathname !== "/") {
+      return;
+    }
+
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const sections = Array.from(document.querySelectorAll<HTMLElement>(".scene"));
     if (sections.length === 0) return;
@@ -395,7 +402,7 @@ export function SectionPager() {
       else mql.removeListener(onBreakpointChange);
       if (cleanupPaginated) cleanupPaginated();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

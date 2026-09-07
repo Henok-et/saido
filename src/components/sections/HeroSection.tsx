@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { ArrowDown, ArrowRight, FileText, Globe, GraduationCap, Building2 } from "lucide-react";
+import { ArrowDown, ArrowRight, FileText } from "lucide-react";
 import { PREMIUM_EASE } from "@/components/ui/AnimatedSection";
 
 interface HeroData {
@@ -30,12 +30,7 @@ export function HeroSection({ data }: { data?: HeroData }) {
   const firstPart = parts.slice(0, -1).join(" ") || parts[0];
   const lastPart = parts.length > 1 ? parts[parts.length - 1] : "";
 
-  // Senior executive key credentials
-  const executiveTitles = [
-    { icon: Building2, text: "Former Minister of Higher Education & Research" },
-    { icon: Globe, text: "African Union STI Policy Advisory" },
-    { icon: GraduationCap, text: "Professor of Physics & Renewable Energy" },
-  ];
+
 
   return (
     <section
@@ -120,28 +115,7 @@ export function HeroSection({ data }: { data?: HeroData }) {
               {description}
             </motion.p>
 
-            {/* Senior Executive Credentials Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.85, duration: 0.7, ease: PREMIUM_EASE }}
-              className="border-y border-white/15 py-4 mb-10 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6"
-            >
-              {executiveTitles.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div key={idx} className="flex items-center gap-2.5">
-                    <Icon className="w-4 h-4 text-executive-gold flex-shrink-0" />
-                    <span className="text-gray-200 text-xs sm:text-sm font-medium tracking-wide">
-                      {item.text}
-                    </span>
-                    {idx < executiveTitles.length - 1 && (
-                      <span className="hidden sm:inline text-gray-600 ml-3">•</span>
-                    )}
-                  </div>
-                );
-              })}
-            </motion.div>
+
 
             {/* Action CTAs */}
             <motion.div
